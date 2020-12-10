@@ -12,7 +12,7 @@ class AuthUtil {
         return BluetoothAdapter.getDefaultAdapter().name
     }
 
-    fun getIpAdress(context: Context) : String {
+    fun getIpAdress(context: Context) : String {    //Ip address getter
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return Formatter.formatIpAddress(wifiManager.connectionInfo.ipAddress)
     }
