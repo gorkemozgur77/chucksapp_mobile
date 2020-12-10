@@ -1,6 +1,7 @@
 package com.example.chuckapp.modules.auth.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuckapp.R
 import com.example.chuckapp.model.User
+import com.example.chuckapp.model.requestModels.signUp.SignResponse
 import com.example.chuckapp.service.ApiClient
 import com.example.chuckapp.service.SessionManager
 import com.example.chuckapp.modules.auth.util.AuthUtil
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.modules.auth.validator.RegisterAuthValidator
+import com.example.chuckapp.modules.home.HomePageActivity
 import kotlinx.android.synthetic.main.fragment_signup.*
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
 
 
 class SignupFragment : Fragment() {
@@ -71,43 +77,43 @@ class SignupFragment : Fragment() {
         layoutErrorValidator.layoutEmptyErrorValidator(passwordLayId, passWordId)
 
 
-//        progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
         var sessionmanager = SessionManager(context)
         apiClient = ApiClient()
 
-//        apiClient.getAuthApiService(context).signUp(getUserInfo(context)).enqueue(object : retrofit2.Callback<SignResponse>{
-//            override fun onResponse(call: Call<SignResponse>, response: Response<SignResponse>) {
-//                progressBar.visibility = View.GONE
-//                if(response.isSuccessful){
-//                    response.body()?.tokenlar?.Token?.let { sessionmanager.saveAuthToken(it) }
-//                    response.body()?.tokenlar?.PermToken?.let { sessionmanager.savePermToken(it) }
-//                    println(response.body())
-//
-//                    val intent = Intent(context, HomePageActivity::class.java)
-//                    startActivity(intent)
-//                    activity?.finish()
-//
-//
-//                } else {
-//                    try {
-//                        println(response.errorBody()?.string())
-//                        var hata = JSONObject(response.errorBody()!!.string())
-//                        if(hata.getString("message") == Constants.EMAIL_EXISTS_MESSAGE){
-//                            emailLayId.isErrorEnabled = true
-//                            emailLayId.error = Constants.EMAIL_EXISTS_MESSAGE
-//                        }
-//                    } catch (e : Exception){
-//                        println(e.message)
-//                    }
-//
-//                }
-//            }
-//            override fun onFailure(call: Call<SignResponse>, t: Throwable) {
-//                 signButton.text= "faile dustu"
-//                 progressBar.visibility = View.GONE
-//
-//            }
-//        })
+        apiClient.getAuthApiService().signUp(getUserInfo(context)).enqueue(object : retrofit2.Callback<SignResponse>{
+            override fun onResponse(call: Call<SignResponse>, response: Response<SignResponse>) {
+                progressBar.visibility = View.GONE
+                if(response.isSuccessful){
+                    response.body()?.tokenlar?.Token?.let { sessionmanager.saveAuthToken(it) }
+                    response.body()?.tokenlar?.PermToken?.let { sessionmanager.savePermToken(it) }
+                    println(response.body())
+
+                    val intent = Intent(context, HomePageActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
+
+
+                } else {
+                    try {
+                        println(response.errorBody()?.string())
+                        var hata = JSONObject(response.errorBody()!!.string())
+                        if(hata.getString("message") == "Email already exists"){
+                            emailLayId.isErrorEnabled = true
+                            emailLayId.error = ""
+                        }
+                    } catch (e : Exception){
+                        println(e.message)
+                    }
+
+                }
+            }
+            override fun onFailure(call: Call<SignResponse>, t: Throwable) {
+                 signButton.text= "faile dustu"
+                 progressBar.visibility = View.GONE
+
+            }
+        })
     }
 
 
