@@ -5,16 +5,11 @@ import com.example.chuckapp.model.requestModels.auth.LoginRequest
 import com.example.chuckapp.model.requestModels.auth.LoginRequestViaToken
 import com.example.chuckapp.model.requestModels.auth.LoginResponse
 import com.example.chuckapp.model.requestModels.auth.LoginResponseViaToken
-import com.example.chuckapp.model.requestModels.signUp.MeResponse
-import com.example.chuckapp.model.requestModels.signUp.SignOutRequest
+import com.example.chuckapp.model.requestModels.signUp.EmailExitanceResponce
 import com.example.chuckapp.model.requestModels.signUp.SignResponse
 import com.example.chuckapp.util.Constants
-import com.google.gson.JsonObject
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface AuthApiService {
 
@@ -33,11 +28,10 @@ interface AuthApiService {
     @POST(Constants.LOGIN_WITH_TOKEN_URL)
     fun signInViaToken(@Body request: LoginRequestViaToken) : Call<LoginResponseViaToken>
 
-    @POST(Constants.SIGN_OUT_URL)
-    fun signOut(@Body request: SignOutRequest) : Call<LoginResponse>
+    @GET(Constants.EMAIL_EXISTANCE_CHECK_URL)
+    fun checkEmailExistance(@Query("email") email : String) : Call<EmailExitanceResponce>
 
-    @GET(Constants.GET_USER_INFO_URL)
-    fun getProfile() : Call<MeResponse>
+
 
 
 

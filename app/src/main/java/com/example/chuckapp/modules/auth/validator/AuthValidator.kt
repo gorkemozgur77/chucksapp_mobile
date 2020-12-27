@@ -6,29 +6,27 @@ import android.widget.TextView
 import com.google.android.material.textfield.TextInputLayout
 
 open class AuthValidator {
-    val canNotEmpty = "Field can not be left empty."
-    val invalidEmail = "Invalid Email"
-    val invalidPassword= "Password can not be less than 4 characters"
+    private val canNotEmpty = "Field can not be left empty."
+    private val invalidEmail = "Invalid Email"
+    private val invalidPassword= "Password can not be less than 4 characters"
 
-
-    fun isEmpty(view: TextView): Boolean {
-        return TextUtils.isEmpty( view.text.toString() )
-    }
 
     fun errorAction(layout: TextInputLayout, message: String){
         layout.isErrorEnabled = true
         layout.error = message
     }
 
-    fun isEmailValid(view: TextView): Boolean {
+    private  fun isEmpty(view: TextView): Boolean {
+        return TextUtils.isEmpty( view.text.toString() )
+    }
+
+    private fun isEmailValid(view: TextView): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher( view.text.toString() ).matches()
     }
 
-    fun isPasswordValid(view: TextView): Boolean{
-        return view.text.toString().length > 4
+    private fun isPasswordValid(view: TextView): Boolean{
+        return view.text.toString().length >= 4
     }
-
-
 
     fun layoutEmptyErrorValidator(a : TextInputLayout, b : TextView): Boolean{
         if ( isEmpty(b) ) {

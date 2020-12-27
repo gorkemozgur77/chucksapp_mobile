@@ -12,11 +12,12 @@ import androidx.navigation.Navigation
 import com.example.chuckapp.R
 import com.example.chuckapp.model.requestModels.auth.LoginRequest
 import com.example.chuckapp.model.requestModels.auth.LoginResponse
-import com.example.chuckapp.service.ApiClient
-import com.example.chuckapp.service.SessionManager
+import com.example.chuckapp.modules.auth.service.AuthClient
 import com.example.chuckapp.modules.auth.util.AuthUtil
-import com.example.chuckapp.util.Constants
+import com.example.chuckapp.modules.auth.validator.SignInValidator
 import com.example.chuckapp.modules.home.HomePageActivity
+import com.example.chuckapp.service.SessionManager
+import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.fragment_login.*
 import retrofit2.Call
 import retrofit2.Response
@@ -24,14 +25,10 @@ import retrofit2.Response
 
 class LoginFragment : Fragment() {
 
-    private lateinit var apiClient: ApiClient
+    private lateinit var authClient: AuthClient
     private val authUtil = AuthUtil()
+    private val errorValidator = SignInValidator()
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -44,57 +41,81 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sessionmanager = context?.let { SessionManager(it) }
+        context?.let { SessionManager(it) }
         textButton.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
             Navigation.findNavController(it).navigate(action)
         }
         loginButton.setOnClickListener {
-            signinViaMail(it.context)
-
-
+            signIn(it.context)
+        }
+        loginEmailId.setOnFocusChangeListener { v, hasFocus ->
+            if (v.isFocused){
+                loginEmailLayId.isErrorEnabled = false
+                loginEmailLayId.error = null
+            }
         }
 
-    }
-    fun signinViaMail(context : Context){
-        var sessionmanager = SessionManager(context)
-        apiClient = ApiClient()
-        apiClient.getAuthApiService().signInViaEmail(getInfo(context)).enqueue(object : retrofit2.Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if(response.isSuccessful){
-                    println(response.body())
-                    response.body()!!.token?.PermToken?.let { sessionmanager.savePermToken(it) }
-                    response.body()!!.token?.Token?.let { sessionmanager.saveAuthToken(it) }
-                    val intent = Intent(context, HomePageActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
-                }
-                else {
-                    println(response.errorBody()!!.string())
-                }
+        loginPasswordId.setOnFocusChangeListener { v, hasFocus ->
+            if (v.isFocused){
+                loginPasswordLayId.isErrorEnabled = false
+                loginPasswordLayId.error = null
             }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                println("Servera baglanmadik")
-            }
-
-
-        })
-
+        }
     }
 
+    private fun signIn(context: Context) {
+        validateLayouts()
+        if (loginEmailLayId.isErrorEnabled || loginPasswordLayId.isErrorEnabled)
+            return
+        signInViaMail(context)
+    }
 
-    fun getInfo(context: Context) : LoginRequest {
+    private fun validateLayouts(){
+        errorValidator.layoutEmailRegexValidator(loginEmailLayId, loginEmailId)
+        errorValidator.layoutEmptyErrorValidator(loginPasswordLayId,loginPasswordId)
+    }
+
+    private fun signInViaMail(context: Context){
+        loginProgressbar.visibility = View.VISIBLE
+        authClient = AuthClient()
+        authClient.getAuthApiService().signInViaEmail(getInfo(context)).enqueue(respHandler)
+
+    }
+
+    private fun getInfo(context: Context) : LoginRequest {
 
         val requestBody = LoginRequest(
                 loginEmailId.text.toString(),
-                loginSifreID.text.toString(),
+                loginPasswordId.text.toString(),
                 Constants.PLATFORM_NAME,
                 authUtil.getIpAdress(context),
                 authUtil.getMacAdress(context),
                 authUtil.getDeviceName()
         )
         return  requestBody
+    }
+
+    private val respHandler = object : retrofit2.Callback<LoginResponse> {
+        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+            loginProgressbar.visibility = View.GONE
+            if(response.isSuccessful){
+                println(response.body())
+                response.body()!!.token?.PermToken?.let { context?.let { it1 -> SessionManager(it1).savePermToken(it) } }
+                response.body()!!.token?.Token?.let { context?.let { it1 -> SessionManager(it1).saveAuthToken(it) } }
+                val intent = Intent(context, HomePageActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
+            else {
+                view?.let { errorValidator.wrongInfoAlertDialog(it) }
+                val string = response.errorBody()?.string()
+                println(string)
+            }
+        }
+        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+            println(t.message + t.stackTrace + t.cause + t.localizedMessage)
+        }
 
     }
 

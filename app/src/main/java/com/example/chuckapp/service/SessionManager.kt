@@ -32,12 +32,8 @@ class SessionManager (context: Context) {
         editor.apply()
     }
 
-    fun fetchAuthToken(): String? {
-        return prefs.getString(USER_TOKEN, null)
-    }
+    fun fetchAuthToken(): String? { return prefs.getString(USER_TOKEN, null) }
 
-    fun fetchPermToken(): String? {
-        return prefs.getString(PERM_TOKEN, null)
-    }
+    fun fetchPermToken(): String? { return prefs.getString(PERM_TOKEN, null) }
 
 }

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/loginanasayfa"
     tools:context=".modules.auth.view.fragments.LoginFragment">
+
     <LinearLayout
         android:id="@+id/linear1"
         android:orientation="vertical"
@@ -15,20 +17,25 @@
         android:layout_marginTop="300dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/userName"
+            android:id="@+id/loginEmailLayId"
             android:hint="E-Mail"
             app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusTopStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
             android:layout_width="250dp"
+            app:startIconDrawable="@drawable/ic_baseline_email_24"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/loginEmailId"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+
         </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +48,7 @@
         android:layout_below="@+id/linear1">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
+            android:id="@+id/loginPasswordLayId"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -50,15 +57,16 @@
             app:boxCornerRadiusTopStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
             app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginSifreID"
+                android:id="@+id/loginPasswordId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-
 
     </LinearLayout>
 
@@ -70,21 +78,24 @@
         app:cornerRadius="15dp"
         android:layout_alignEnd="@+id/linear2"
         android:layout_below="@+id/linear2"
-
         android:text="Login" />
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/loginButton"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal">
+
         <TextView
             android:layout_marginStart="5dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:textAlignment="center"
             android:text="Haven't registered yet?"/>
+
         <Button
             android:id="@+id/textButton"
             android:layout_width="0dp"
@@ -104,5 +115,13 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/ic_sign_in_icon" />
+
+    <ProgressBar
+        android:id="@+id/loginProgressbar"
+        style="?android:attr/progressBarStyle"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>
