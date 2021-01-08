@@ -27,6 +27,7 @@ class HomePageActivity : AppCompatActivity() {
 
         home_page_bottomNavigationViewId.setOnNavigationItemSelectedListener {
             when(it.itemId){
+
                 R.id.message -> makeCurrentFragment(Bottomfragment1())
                 R.id.feed -> makeCurrentFragment(Bottomfragment2())
                 R.id.call -> makeCurrentFragment(Bottomfragment3())
