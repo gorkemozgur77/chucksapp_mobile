@@ -7,10 +7,8 @@ import android.view.View
 import android.widget.ProgressBar
 import com.example.chuckapp.model.requestModels.auth.LoginResponse
 import com.example.chuckapp.modules.auth.validator.SignInValidator
-import com.example.chuckapp.modules.home.HomePageActivity
+import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.service.SessionManager
-import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_login.view.*
 import retrofit2.Call
 import retrofit2.Response
 

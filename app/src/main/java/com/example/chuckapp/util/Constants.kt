@@ -5,11 +5,12 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 
 object Constants {
-    const val BASE_URL = "http://10.0.2.2:8081/"
+    const val BASE_URL = "http://34.65.51.174:8081/"
+    const val LOCAL_BASE_URL = "http://10.0.2.2:8081/"
     const val LOGIN_WITH_EMAIL_URL = "auth/sign-in"
     const val LOGIN_WITH_TOKEN_URL = "auth/refresh"
     const val SING_UP_URL = "auth/sign-up"
-    const val EMAIL_EXISTANCE_CHECK_URL = "auth/email/exists"
+    const val EMAIL_EXISTENCE_CHECK_URL = "auth/email/exists"
 
 
 

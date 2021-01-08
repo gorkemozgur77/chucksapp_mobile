@@ -28,7 +28,7 @@ interface AuthApiService {
     @POST(Constants.LOGIN_WITH_TOKEN_URL)
     fun signInViaToken(@Body request: LoginRequestViaToken) : Call<LoginResponseViaToken>
 
-    @GET(Constants.EMAIL_EXISTANCE_CHECK_URL)
+    @GET(Constants.EMAIL_EXISTENCE_CHECK_URL)
     fun checkEmailExistance(@Query("email") email : String) : Call<EmailExitanceResponce>
 
 

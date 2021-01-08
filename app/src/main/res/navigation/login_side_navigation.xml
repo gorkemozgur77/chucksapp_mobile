@@ -13,22 +13,15 @@
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.chuckapp.modules.auth.view.fragments.SignupFragment"
         android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup">
-        <action
-            android:id="@+id/action_signupFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_out"
-            app:exitAnim="@anim/fade_in"
-            app:popEnterAnim="@anim/slide_out"
-            app:popExitAnim="@anim/fade_in" />
-    </fragment>
+        tools:layout="@layout/fragment_signup"/>
 </navigation>

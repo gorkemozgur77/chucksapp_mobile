@@ -10,4 +10,7 @@
     <color name="etoBlue">#0962FF</color>
     <color name="etoDarkblue">#0c2551</color>
     <color name="green">#008000</color>
+    <color name="LighGray">#DCDCDC</color>
+    <color name="LighsSlateGray">#778899</color>
+    <color name="DarkGray">#A9A9A9</color>
 </resources>

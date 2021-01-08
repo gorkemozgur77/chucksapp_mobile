@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChuckApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".modules.home.HomePageActivity" />
+        <activity android:name=".modules.home.view.appBarNavigation.AddFriendPage" />
+        <activity android:name=".modules.home.view.HomePageActivity" />
         <activity android:name=".modules.auth.view.AuthActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

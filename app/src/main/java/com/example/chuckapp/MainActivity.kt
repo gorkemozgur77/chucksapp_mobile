@@ -1,22 +1,16 @@
 package com.example.chuckapp
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.net.NetworkRequest
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.chuckapp.model.requestModels.auth.LoginRequestViaToken
 import com.example.chuckapp.model.requestModels.auth.LoginResponseViaToken
 import com.example.chuckapp.modules.auth.service.AuthClient
+import com.example.chuckapp.modules.auth.view.AuthActivity
+import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.service.SessionManager
 import com.example.chuckapp.util.Constants
-import com.example.chuckapp.modules.auth.view.AuthActivity
-import com.example.chuckapp.modules.home.HomePageActivity
 import retrofit2.Call
 import retrofit2.Response
 
@@ -27,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val background = object : Thread() {
             override fun run() {
                 try {
@@ -39,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         background.start()
+
     }
 
     fun observeLogin(context : Context){
