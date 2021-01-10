@@ -1,15 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.home.view.bottomNavigation.AccountFragment">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="75dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/DarkGray"
+        app:cardCornerRadius="50dp">
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ben" />
+    </com.google.android.material.card.MaterialCardView>
+    <LinearLayout
+        android:id="@+id/accountLinearLayID"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:layout_margin="10dp"
+            android:id="@+id/accountCardView"
+            android:layout_width="match_parent"
+            app:cardElevation="6dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/accountNameAndSurnameId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="10dp"
+                    android:padding="15dp"
+                    android:textSize="15sp"
+                    android:background="@drawable/bottom_border"
+                    app:drawableStartCompat="@drawable/ic_baseline_perm_contact_calendar_24" />
+                <TextView
+                    android:id="@+id/accountEmailId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="10dp"
+                    android:padding="15dp"
+                    android:textSize="15sp"
+                    app:drawableStartCompat="@drawable/ic_baseline_email_24" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/accountLogOutbuttonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log out"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"/>
+    </LinearLayout>
 
-    <TextView
+
+
+    <ProgressBar
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="AccountFragment" />
+        android:id="@+id/accountProgressBar"/>
+
+
 
 </RelativeLayout>

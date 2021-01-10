@@ -1,11 +1,15 @@
 package com.example.chuckapp.modules.home.view
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.chuckapp.R
+import com.example.chuckapp.model.requestModels.signUp.MeResponse
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
@@ -13,10 +17,13 @@ import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment1
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment2
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment3
 import kotlinx.android.synthetic.main.activity_home_page.*
+import kotlinx.android.synthetic.main.fragment_account.*
+import retrofit2.Call
+import retrofit2.Response
 
 class HomePageActivity : AppCompatActivity() {
 
-    private lateinit var apiclient : HomeClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +34,19 @@ class HomePageActivity : AppCompatActivity() {
 
         home_page_bottomNavigationViewId.setOnNavigationItemSelectedListener {
             when(it.itemId){
-
                 R.id.message -> makeCurrentFragment(Bottomfragment1())
                 R.id.feed -> makeCurrentFragment(Bottomfragment2())
                 R.id.call -> makeCurrentFragment(Bottomfragment3())
                 R.id.account -> makeCurrentFragment(AccountFragment())
+            }
+            true
+        }
+        home_page_bottomNavigationViewId.setOnNavigationItemReselectedListener {
+            when(it.itemId){
+                R.id.message -> print("")
+                R.id.feed -> print("")
+                R.id.call -> print("")
+                R.id.account -> print("")
             }
             true
         }
@@ -41,10 +56,10 @@ class HomePageActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
     private fun makeCurrentFragment(fragment : Fragment){
-
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.frameLayId,fragment)
             commit()
@@ -53,51 +68,15 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun NavigateToAddfriend(){
-        val intent = Intent(baseContext, AddFriendPage::class.java)
-        startActivity(intent)
+        startActivity(Intent(baseContext, AddFriendPage::class.java))
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
     }
 
-//    fun signOut(context: Context,view : View){
-//        apiclient = HomeClient()
-//        val sessionManager = SessionManager(context)
-//        apiclient.getHomeApiService(context).signOut(SignOutRequest(Constants.PLATFORM_NAME)).enqueue(object : retrofit2.Callback<LoginResponse>{
-//            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-//                println(response.body())
-//                println(response.errorBody()?.string())
-//                if (response.isSuccessful){
-//                    println("cikis yapildi")
-//                    sessionManager.deleteTokens()
-//                    val intent = Intent(baseContext, AuthActivity::class.java)
-//                    startActivity(intent)
-//                    finish()
-//                }
-//            }
-//            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-//                println(t.cause)
-//                println(t.message)
-//                print(t.stackTrace)
-//            }
-//        })
-//    }
-//
-//    fun getInfo(context: Context){
-//
-//        apiclient = HomeClient()
-//        apiclient.getHomeApiService(context).getProfile().enqueue(object :retrofit2.Callback<MeResponse>{
-//            override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
-//                if (response.isSuccessful){
-//                    textView3.text = response.body()?.user?.isim.toString() + " " + response.body()?.user?.soyisim.toString()
-//                    textView2.text = response.body()?.user?.eposta.toString()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<MeResponse>, t: Throwable) {
-//
-//            }
-//
-//        })
-//    }
+
+
+
+
+
 
 }
 

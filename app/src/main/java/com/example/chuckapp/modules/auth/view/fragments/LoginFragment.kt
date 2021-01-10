@@ -29,7 +29,6 @@ class LoginFragment : Fragment() {
     private val authUtil = AuthUtil()
     private val errorValidator = SignInValidator()
 
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -79,13 +78,34 @@ class LoginFragment : Fragment() {
     private fun signInViaMail(context: Context){
         loginProgressbar.visibility = View.VISIBLE
         authClient = AuthClient()
-        authClient.getAuthApiService().signInViaEmail(getInfo(context)).enqueue(respHandler)
+        authClient.getAuthApiService().signInViaEmail(getInfo(context)).enqueue(signInViaMailHandler)
 
+    }
+
+    private val signInViaMailHandler = object : retrofit2.Callback<LoginResponse> {
+
+        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+            loginProgressbar.visibility = View.GONE
+            if(response.isSuccessful){
+                println(response.body())
+                response.body()!!.token?.PermToken?.let { context?.let { it1 -> SessionManager(it1).savePermToken(it) } }
+                response.body()!!.token?.Token?.let { context?.let { it1 -> SessionManager(it1).saveAuthToken(it) } }
+                startActivity(Intent(context, HomePageActivity::class.java))
+                activity?.finish()
+            }
+            else {
+                view?.let { errorValidator.wrongInfoAlertDialog(it) }
+                println(response.errorBody()?.string())
+            }
+        }
+        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+            println(t.message + t.stackTrace + t.cause + t.localizedMessage)
+        }
     }
 
     private fun getInfo(context: Context) : LoginRequest {
 
-        val requestBody = LoginRequest(
+        return LoginRequest(
                 loginEmailId.text.toString(),
                 loginPasswordId.text.toString(),
                 Constants.PLATFORM_NAME,
@@ -93,30 +113,5 @@ class LoginFragment : Fragment() {
                 authUtil.getMacAdress(context),
                 authUtil.getDeviceName()
         )
-        return  requestBody
     }
-
-    private val respHandler = object : retrofit2.Callback<LoginResponse> {
-        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-            loginProgressbar.visibility = View.GONE
-            if(response.isSuccessful){
-                println(response.body())
-                response.body()!!.token?.PermToken?.let { context?.let { it1 -> SessionManager(it1).savePermToken(it) } }
-                response.body()!!.token?.Token?.let { context?.let { it1 -> SessionManager(it1).saveAuthToken(it) } }
-                val intent = Intent(context, HomePageActivity::class.java)
-                startActivity(intent)
-                activity?.finish()
-            }
-            else {
-                view?.let { errorValidator.wrongInfoAlertDialog(it) }
-                val string = response.errorBody()?.string()
-                println(string)
-            }
-        }
-        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-            println(t.message + t.stackTrace + t.cause + t.localizedMessage)
-        }
-
-    }
-
 }

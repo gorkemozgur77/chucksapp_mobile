@@ -1,8 +1,6 @@
 package com.example.chuckapp.util
 
-import android.content.Context
-import android.view.View
-import android.view.inputmethod.InputMethodManager
+import retrofit2.Response
 
 object Constants {
     const val BASE_URL = "http://34.65.51.174:8081/"
@@ -23,6 +21,16 @@ object Constants {
 
     const val PLATFORM_NAME = "MOBILE"
     const val TokenPreferenceFile = "TokenPreferenceFile"
+
+
+
+
+
+    fun showError(throwable: Throwable){
+        println(throwable.cause)
+        println(throwable.message)
+        println(throwable.stackTrace)
+    }
 
 
 }

@@ -15,61 +15,54 @@ import retrofit2.Call
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var authClient : AuthClient
     private lateinit var sessionmanager : SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val background = object : Thread() {
+        object : Thread() {
             override fun run() {
                 try {
                     Thread.sleep(3000)
                     observeLogin(applicationContext)
-                    println("yapildi")
+                    println("SplashScreen gecti.")
                 }catch (e : Exception){
                     e.printStackTrace()
                 }
             }
-        }
-        background.start()
+        }.start()
 
     }
 
-    fun observeLogin(context : Context){
-        authClient = AuthClient()
+    private fun observeLogin(context : Context){
         sessionmanager = SessionManager(context)
         if (sessionmanager.fetchPermToken() != null){
-            authClient.getAuthApiService().signInViaToken(
-                    LoginRequestViaToken(sessionmanager.fetchPermToken()!!, Constants.PLATFORM_NAME))
-                    .enqueue(object : retrofit2.Callback<LoginResponseViaToken>{
-                        override fun onResponse(call: Call<LoginResponseViaToken>, response: Response<LoginResponseViaToken>) {
-                            if (response.isSuccessful){
-                                println(response.body().toString())
-                                response.body()!!.token.Token?.let { sessionmanager.saveAuthToken(it) }
-                                val intent = Intent(baseContext, HomePageActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            }
-                            else {
-                                println(response.errorBody()!!.string())
-                                val intent = Intent(baseContext, AuthActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            }
-                        }
-                        override fun onFailure(call: Call<LoginResponseViaToken>, t: Throwable) {
-                            println("onFailure a dustu")
-                        }
-                    })
+            AuthClient().getAuthApiService().signInViaToken(LoginRequestViaToken(sessionmanager.fetchPermToken()!!, Constants.PLATFORM_NAME)).enqueue(signInViaTokenHandler)
         }
         else {
-            val intent = Intent(baseContext, AuthActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(baseContext, AuthActivity::class.java))
             finish()
         }
 
+    }
+
+    private val signInViaTokenHandler = object : retrofit2.Callback<LoginResponseViaToken>{
+        override fun onResponse(call: Call<LoginResponseViaToken>, response: Response<LoginResponseViaToken>) {
+            if (response.isSuccessful){
+                println(response.body().toString())
+                response.body()!!.token.Token?.let { sessionmanager.saveAuthToken(it) }
+                startActivity(Intent(baseContext, HomePageActivity::class.java))
+                finish()
+            }
+            else {
+                println(response.errorBody()!!.string())
+                startActivity(Intent(baseContext, AuthActivity::class.java))
+                finish()
+            }
+        }
+        override fun onFailure(call: Call<LoginResponseViaToken>, t: Throwable) {
+            println("onFailure a dustu")
+        }
     }
 
 
