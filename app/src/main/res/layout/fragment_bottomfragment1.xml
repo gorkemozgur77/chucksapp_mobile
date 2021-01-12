@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+
+        android:paddingStart="2dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            app:menu="@menu/app_bar_items"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="ChucksApp"
+            app:titleTextColor="@color/black"
+            android:theme="@style/Widget.MaterialComponents.BottomNavigationView"
+            style="@style/Widget.MaterialComponents.Toolbar"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<RelativeLayout
+    android:paddingTop="?android:attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.home.view.bottomNavigation.Bottomfragment1">
@@ -182,3 +207,4 @@
 
     </LinearLayout>
 </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>

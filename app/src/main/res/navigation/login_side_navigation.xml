@@ -14,8 +14,9 @@
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
+            app:exitAnim="@anim/fade_out"
             app:launchSingleTop="false"
+            app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="true" />
     </fragment>

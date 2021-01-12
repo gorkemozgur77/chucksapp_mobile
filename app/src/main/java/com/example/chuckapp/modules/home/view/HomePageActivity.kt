@@ -50,14 +50,9 @@ class HomePageActivity : AppCompatActivity() {
             }
             true
         }
-        topAppBar.setOnMenuItemClickListener {
-            when(it.itemId){
-                R.id.addFriend -> NavigateToAddfriend()
-            }
-            true
-        }
 
     }
+
 
     private fun makeCurrentFragment(fragment : Fragment){
         supportFragmentManager.beginTransaction().apply {
@@ -65,12 +60,10 @@ class HomePageActivity : AppCompatActivity() {
             commit()
         }
 
+
     }
 
-    private fun NavigateToAddfriend(){
-        startActivity(Intent(baseContext, AddFriendPage::class.java))
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
-    }
+
 
 
 
