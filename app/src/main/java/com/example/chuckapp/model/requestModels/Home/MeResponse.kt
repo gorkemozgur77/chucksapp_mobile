@@ -1,4 +1,4 @@
-package com.example.chuckapp.model.requestModels.signUp
+package com.example.chuckapp.model.requestModels.Home
 
 import com.example.chuckapp.model.User
 import com.google.gson.annotations.Expose

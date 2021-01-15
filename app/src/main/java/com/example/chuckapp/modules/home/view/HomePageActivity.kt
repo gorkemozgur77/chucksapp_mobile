@@ -1,25 +1,23 @@
 package com.example.chuckapp.modules.home.view
 
-import android.app.ActivityOptions
-import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
+import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.example.chuckapp.R
-import com.example.chuckapp.model.requestModels.signUp.MeResponse
-import com.example.chuckapp.modules.home.service.HomeClient
-import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment1
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment2
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment3
 import kotlinx.android.synthetic.main.activity_home_page.*
 import kotlinx.android.synthetic.main.fragment_account.*
-import retrofit2.Call
-import retrofit2.Response
+import java.util.*
+import kotlin.concurrent.schedule
 
 class HomePageActivity : AppCompatActivity() {
 
@@ -28,6 +26,7 @@ class HomePageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
+
         home_page_bottomNavigationViewId.background = null
         home_page_bottomNavigationViewId.menu.getItem(2).isEnabled = false
         makeCurrentFragment(Bottomfragment1())
@@ -50,9 +49,22 @@ class HomePageActivity : AppCompatActivity() {
             }
             true
         }
-
     }
 
+     fun toggleBottomAppBar(show: Boolean) {
+        val transition: Transition = Fade()
+        transition.duration = 100
+        transition.addTarget(home_page_bottomAppbarId)
+        TransitionManager.beginDelayedTransition(homepageLayId, transition)
+         if (show) {
+             home_page_bottomAppbarId.visibility = View.VISIBLE
+             fabId.show()
+         }
+         else {
+             home_page_bottomAppbarId.visibility = View.GONE
+             fabId.hide()
+         }
+    }
 
     private fun makeCurrentFragment(fragment : Fragment){
         supportFragmentManager.beginTransaction().apply {
@@ -62,15 +74,6 @@ class HomePageActivity : AppCompatActivity() {
 
 
     }
-
-
-
-
-
-
-
-
-
 }
 
 

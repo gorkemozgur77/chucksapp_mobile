@@ -12,6 +12,8 @@ object Constants {
 
 
 
+    const val ENTRY_ACTIVE_URL = "entry/active"
+    const val ENTRY_INACTIVE_URL = "entry/inactive"
     const val SIGN_OUT_URL ="auth/sign-out"
     const val GET_USER_INFO_URL = "me"
 

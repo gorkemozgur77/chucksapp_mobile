@@ -13,13 +13,13 @@ class AuthUtil {
     }
 
     fun getIpAdress(context: Context) : String {    //Ip address getters
-        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = context.getApplicationContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
         return Formatter.formatIpAddress(wifiManager.connectionInfo.ipAddress)
     }
 
     @SuppressLint("HardwareIds")
     fun getMacAdress(context: Context) : String {
-        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = context.getApplicationContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifiManager.connectionInfo.macAddress
     }
 
