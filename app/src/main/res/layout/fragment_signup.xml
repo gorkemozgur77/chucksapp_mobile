@@ -1,145 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/ic_arkaplan_resmi"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".modules.auth.view.fragments.SignupFragment">
 
-    <LinearLayout
-        android:id="@+id/linear1"
-
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        >
-        <TextView
-            android:layout_marginTop="115dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="58dp"
-            android:text="Sign Up"
-            android:textSize="25sp"
-            android:textColor="@color/etoDarkblue"
-            android:textStyle="bold"/>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nameLayId"
-
-            android:layout_width="250dp"
-            android:hint="Name"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="135dp"
-            app:boxCornerRadiusTopStart="15dp"
-            app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusBottomStart="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameId"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-    <LinearLayout
-    android:id="@+id/linear2"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="15dp"
-    android:layout_below="@+id/linear1">
-
     <com.google.android.material.textfield.TextInputLayout
-
-        android:id="@+id/surnameLayId"
+        android:id="@+id/nameLayId"
+        android:layout_centerHorizontal="true"
+        app:startIconDrawable="@drawable/ic_baseline_perm_contact_calendar_24"
         android:layout_width="250dp"
-        android:hint="Surname"
+        android:hint="Name"
         android:layout_height="wrap_content"
+        android:layout_marginTop="270dp"
         app:boxCornerRadiusTopStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusBottomEnd="15dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:startIconDrawable="@drawable/ic_baseline_perm_contact_calendar_24"
+            android:id="@+id/surnameLayId"
+            android:layout_below="@+id/nameLayId"
+            android:layout_width="250dp"
+            android:hint="Surname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/surnameId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
-</LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear3"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/linear2">
 
         <com.google.android.material.textfield.TextInputLayout
-
             android:id="@+id/emailLayId"
             android:layout_width="250dp"
             android:hint="E-Mail"
+            android:layout_below="@+id/surnameLayId"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
             app:boxCornerRadiusTopStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusBottomEnd="15dp"
+            app:startIconDrawable="@drawable/ic_baseline_email_24"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_baseline_check_circle_24"
+            app:helperTextTextColor="@color/green"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <ProgressBar
+                android:id="@+id/emailProgressbar"
+                android:visibility="gone"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear4"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/linear3">
 
         <com.google.android.material.textfield.TextInputLayout
-
             android:id="@+id/passwordLayId"
             android:hint="Password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/emailLayId"
             app:boxCornerRadiusTopStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusBottomEnd="15dp"
+            app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
+            app:endIconMode="password_toggle"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passWordId"
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signButton"
+            android:layout_centerHorizontal="true"
             android:layout_width="250dp"
             android:layout_marginTop="15dp"
             android:layout_height="55dp"
             app:cornerRadius="15dp"
+            android:layout_below="@id/passwordLayId"
             android:text="Sign Up" />
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/signButton"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_marginStart="5dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:textAlignment="center"
+            android:text="Already registered?"/>
+
+        <Button
+            android:id="@+id/textButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:text="Sign In"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            />
     </LinearLayout>
-
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
     <ImageView
         android:layout_centerHorizontal="true"
@@ -148,7 +157,19 @@
         android:layout_marginTop="65dp"
         android:layout_height="200dp"
         android:src="@drawable/ic_sign_up_icon" />
-
-
+    <TextView
+        android:layout_alignTop="@id/imageView"
+        android:layout_alignStart="@id/imageView"
+        android:layout_alignEnd="@id/imageView"
+        android:layout_alignBottom="@id/imageView"
+        android:layout_marginVertical="50dp"
+        android:layout_marginEnd="45dp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textSize="25sp"
+        android:textColor="@color/etoDarkblue"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

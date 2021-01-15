@@ -1,7 +1,8 @@
-package com.example.chuckapp.modules.auth.service
+package com.example.chuckapp.service
 
 import android.content.Context
-import com.example.chuckapp.service.SessionManager
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -13,7 +14,6 @@ class AuthInterceptor(context: Context) : Interceptor {
 
         val requestBuilder = chain.request().newBuilder()
 
-        // If token has been saved, add it to the request
         sessionManager.fetchAuthToken()?.let {
             requestBuilder.addHeader("Authorization",it)
         }
