@@ -1,6 +1,8 @@
 package com.example.chuckapp.util
 
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Constants {
     const val BASE_URL = "http://34.65.51.174:8081/"
@@ -32,6 +34,15 @@ object Constants {
         println(throwable.cause)
         println(throwable.message)
         println(throwable.stackTrace)
+    }
+
+    fun getDate(time : Long): String {
+        val cal = Calendar.getInstance()
+        cal.timeZone
+        val sdf = SimpleDateFormat("dd MMM yyyy, EEEE")
+        sdf.timeZone = TimeZone.getTimeZone("GMT+3")
+        val netDate = Date(time*1000)
+        return sdf.format(netDate)
     }
 
 

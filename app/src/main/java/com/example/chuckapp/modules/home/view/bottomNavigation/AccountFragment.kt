@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.compose.ui.graphics.Color
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ import com.example.chuckapp.util.Constants
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_bottomfragment1.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Url
@@ -172,7 +174,7 @@ class AccountFragment : Fragment() {
 
         override fun onResponse(call: Call<InactiveResponse>, response: Response<InactiveResponse>) {
             if (response.isSuccessful){
-              //  println(response.body())
+                println(response.body())
                 response.body()?.entry?.let { inactiveRecyclerAdapter.setInactiveListItems(it) }
                 accountLoadMore.visibility = View.VISIBLE
                 if (response.body()?.nexturl != null){
@@ -180,7 +182,6 @@ class AccountFragment : Fragment() {
                 }
                 else {
                     nextUrlForInactiveLogs = null
-                    accountNoMoreResultTextView.visibility = View.VISIBLE
                 }
             }
         }
@@ -194,18 +195,22 @@ class AccountFragment : Fragment() {
 
             updateInactiveEntryProgressBar.visibility = View.GONE
             if (response.isSuccessful){
-
                 println(response.body())
                 response.body()?.entry?.let { inactiveRecyclerAdapter.updateInactiveListItems(it) }
                 if (response.body()?.nexturl == null){
                     nextUrlForInactiveLogs = null
-                    accountLoadMore.visibility = View.GONE
-                    accountNoMoreResultTextView.visibility = View.VISIBLE
+                    accountNoMoreResultView.visibility = View.VISIBLE
                 }
                 else{
                     nextUrlForInactiveLogs = response.body()!!.nexturl
                     accountLoadMore.visibility = View.VISIBLE
-
+                }
+            }
+            else{
+                val jObjError =  JSONObject(response.errorBody()?.string())
+                if (jObjError.getString("message") == "Only < 5 page sizes allowed"){
+                    nextUrlForInactiveLogs = null
+                    accountNoMoreResultView.visibility = View.VISIBLE
                 }
             }
         }
@@ -215,6 +220,7 @@ class AccountFragment : Fragment() {
     }
 
     private val getActiveLogResponseHandler = object : retrofit2.Callback<ActiveResponse>{
+
 
         override fun onResponse(call: Call<ActiveResponse>, response: Response<ActiveResponse>) {
             if (response.isSuccessful){

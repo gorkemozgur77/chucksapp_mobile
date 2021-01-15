@@ -7,7 +7,7 @@ data class Time(
 
         @SerializedName("timestamp")
         @Expose
-        val timestamp : Int
+        val timestamp : Long
 
 
 

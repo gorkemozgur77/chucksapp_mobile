@@ -46,12 +46,11 @@
             android:textSize="13sp"
             android:layout_marginStart="10dp"
             android:paddingTop="5dp"
-            android:layout_weight="5"
+            android:layout_weight="7"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:id="@+id/activeDate"
-            android:text="07 Jan 2018, Friday"/>
+            android:id="@+id/activeDate"/>
 
 
 
