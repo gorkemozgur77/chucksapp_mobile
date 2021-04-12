@@ -1,5 +1,6 @@
 package com.example.chuckapp.model.requestModels.Home
 
+import com.example.chuckapp.model.Entry
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

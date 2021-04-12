@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/homepageLayId"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homepageLayId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.home.view.HomePageActivity">
@@ -11,38 +10,38 @@
     <FrameLayout
         android:id="@+id/frameLayId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/home_page_bottomAppbarId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/home_page_bottomAppbarId"
-        app:fabCradleMargin="15dp"
-        app:fabCradleRoundedCornerRadius="30dp"
+        android:layout_gravity="bottom"
         android:background="@android:color/white"
-        android:layout_gravity="bottom">
+        app:fabCradleMargin="15dp"
+        app:fabCradleRoundedCornerRadius="30dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/home_page_bottomNavigationViewId"
-            android:layout_marginEnd="16dp"
             style="@style/Widget.MaterialComponents.BottomNavigationView"
-            app:menu="@menu/home_page_navigation_items"
-            android:background="@android:color/transparent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+            app:menu="@menu/home_page_navigation_items" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fabId"
-        android:backgroundTint="@color/etoBlue"
-        app:tint="@color/white"
-        android:src="@drawable/ic_navigation_camera_white"
         android:layout_gravity="center"
-        app:layout_anchor="@id/home_page_bottomAppbarId"/>
-
+        android:backgroundTint="@color/etoBlue"
+        android:src="@drawable/ic_navigation_camera_white"
+        app:layout_anchor="@id/home_page_bottomAppbarId"
+        app:tint="@color/white" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

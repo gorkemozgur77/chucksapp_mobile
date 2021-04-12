@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "449071468277",
+    "project_id": "chucksapp-24064",
+    "storage_bucket": "chucksapp-24064.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449071468277:android:908fb009503ded7d50ffbc",
+        "android_client_info": {
+          "package_name": "com.example.chuckapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449071468277-f7o6m0ho387kjqr0p8p6d7n12g2vq7s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYaIfeSvEalsMaWk717vhypCfQvfwwMbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449071468277-f7o6m0ho387kjqr0p8p6d7n12g2vq7s0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.example.chuckapp.model.requestModels.Home
+package com.example.chuckapp.model
 
 import com.example.chuckapp.model.Time
 import com.google.gson.annotations.Expose

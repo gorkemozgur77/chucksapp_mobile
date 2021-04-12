@@ -13,12 +13,12 @@ class HomeClient {
 
     fun getHomeApiService(context: Context): HomeApiService {
 
-        if(!::homeApiService.isInitialized) {
+        if (!::homeApiService.isInitialized) {
             val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okhttpClient(context))
-                    .build()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okhttpClient(context))
+                .build()
             homeApiService = retrofit.create(HomeApiService::class.java)
         }
         return homeApiService
@@ -26,8 +26,8 @@ class HomeClient {
 
     private fun okhttpClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor(context))
-                .build()
+            .addInterceptor(AuthInterceptor(context))
+            .build()
     }
 
 }

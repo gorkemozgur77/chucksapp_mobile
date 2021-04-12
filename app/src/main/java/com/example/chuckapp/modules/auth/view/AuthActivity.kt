@@ -19,11 +19,13 @@ class AuthActivity : AppCompatActivity() {
         super.onBackPressed()
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
+
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (currentFocus != null) {
-            val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
         return super.dispatchTouchEvent(ev)
     }
-    }
+}

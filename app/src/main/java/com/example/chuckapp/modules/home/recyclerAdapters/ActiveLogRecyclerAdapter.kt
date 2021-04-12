@@ -1,4 +1,4 @@
-package com.example.chuckapp.modules.home.view.bottomNavigation.recyclerAdapters
+package com.example.chuckapp.modules.home.recyclerAdapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckapp.R
-import com.example.chuckapp.model.requestModels.Home.Entry
+import com.example.chuckapp.model.Entry
 import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.activelog_recycyler_row.view.*
-import kotlinx.android.synthetic.main.inactivelog_recycler_row.view.*
-import java.time.Instant
-import java.time.Instant.EPOCH
 
 class ActiveLogRecyclerAdapter () : RecyclerView.Adapter<ActiveLogRecyclerAdapter.LogViewHolder>() {
     class LogViewHolder(ItemView : View) : RecyclerView.ViewHolder(ItemView) {}

@@ -5,13 +5,20 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object Constants {
-    const val BASE_URL = "http://34.65.51.174:8081/"
+    const val BASE_URL = "http://10.0.2.2:8081/"
     const val LOCAL_BASE_URL = "http://10.0.2.2:8081/"
     const val LOGIN_WITH_EMAIL_URL = "auth/sign-in"
     const val LOGIN_WITH_TOKEN_URL = "auth/refresh"
     const val SING_UP_URL = "auth/sign-up"
     const val EMAIL_EXISTENCE_CHECK_URL = "auth/email/exists"
 
+    const val SET_ONLINE_URL="user-status/online"
+    const val SET_OFFLINE_URL="user-status/offline"
+
+
+    const val SEND_TOKEN_URL="user/fb/token"
+    const val SEARCH_FRIEND_URL="user/search"
+    const val ADD_FRIEND_URL="friend-request"
 
 
     const val ENTRY_ACTIVE_URL = "entry/active"

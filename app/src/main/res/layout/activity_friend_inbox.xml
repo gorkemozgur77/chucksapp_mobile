@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modules.home.view.appBarNavigation.AddFriendPage">
+    tools:context=".modules.home.view.appBarNavigation.FriendInboxActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -29,15 +29,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <SearchView
-            android:id="@+id/searchFriendSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search User" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchFriendRecyclerView"
+            android:id="@+id/friendRequestInboxRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/searchFriendSearchView" />

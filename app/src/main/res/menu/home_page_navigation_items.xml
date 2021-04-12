@@ -5,17 +5,11 @@
         android:id="@+id/message"
         android:title="Message"
         android:icon="@drawable/ic_navigation_message"/>
-    <item
-        android:id="@+id/feed"
-        android:title="Feed"
-        android:icon="@drawable/ic_navigation_feedback"/>
+
     <item
         android:id="@+id/holder"
-        android:title="Video" />
-    <item
-        android:id="@+id/call"
-        android:title="Call"
-        android:icon="@drawable/ic_outline_call_24"/>
+        android:title="" />
+
     <item
         android:id="@+id/account"
         android:title="Account"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,203 +7,206 @@
 
     <com.google.android.material.appbar.AppBarLayout
 
-        android:paddingStart="2dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="2dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
-            app:menu="@menu/app_bar_items"
+            style="@style/Widget.MaterialComponents.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="ChucksApp"
-            app:titleTextColor="@color/black"
             android:theme="@style/Widget.MaterialComponents.BottomNavigationView"
-            style="@style/Widget.MaterialComponents.Toolbar"
-            />
+            app:menu="@menu/app_bar_items"
+            app:title="ChucksApp"
+            app:titleTextColor="@color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<RelativeLayout
-    android:paddingTop="?android:attr/actionBarSize"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".modules.home.view.bottomNavigation.Bottomfragment1">
-
-    <LinearLayout
-        android:id="@+id/linear11"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="5dp"
-            app:strokeColor="@color/green"
-            app:strokeWidth="2dp"
-            app:cardCornerRadius="25dp">
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ben"
-                />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
-            android:background="@drawable/bottom_border"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:layout_weight="3">
-
-            <TextView
-                android:id="@+id/isim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:text="Gorkem Ozgur" />
-
-            <TextView
-                android:id="@+id/detay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
-                android:text="23 Minutes ago" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_below="@+id/linear11"
-        android:id="@+id/linear12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="5dp"
-            app:strokeColor="@color/green"
-            app:strokeWidth="2dp"
-            app:cardCornerRadius="25dp">
-
-            <ImageView
-                android:id="@+id/imageView32"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sen"
-                />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
-            android:background="@drawable/bottom_border"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:layout_weight="3">
-
-            <TextView
-                android:id="@+id/isim1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:text="Oguzhan Uzunay" />
-
-            <TextView
-                android:id="@+id/detay1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
-                android:text="55 Minutes ago" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_below="@+id/linear12"
-        android:id="@+id/linear13"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="5dp"
-            app:strokeColor="@color/DarkGray"
-            app:strokeWidth="2dp"
-            app:cardCornerRadius="25dp">
-
-            <ImageView
-                android:id="@+id/imageView33"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ege"
-                />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
-            android:background="@drawable/bottom_border"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:layout_weight="3">
-
-            <TextView
-                android:id="@+id/isim2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:text="Ege Fitness" />
-
-            <TextView
-                android:id="@+id/detay2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
-                android:text="2 Hours ago" />
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:paddingTop="?android:attr/actionBarSize"
+        tools:context=".modules.home.view.bottomNavigation.Bottomfragment1">
 
 
-    </LinearLayout>
-</RelativeLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linear11"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginRight="15dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingLeft="10dp">-->
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                app:cardCornerRadius="25dp"-->
+<!--                app:strokeColor="@color/green"-->
+<!--                app:strokeWidth="2dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView3"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/ben" />-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:layout_weight="3"-->
+<!--                android:background="@drawable/bottom_border"-->
+<!--                android:orientation="vertical"-->
+<!--                android:paddingBottom="15dp">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/isim"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="Gorkem Ozgur"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/detay"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="23 Minutes ago"-->
+<!--                    android:textSize="13sp" />-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linear12"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/linear11"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginRight="15dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingLeft="10dp">-->
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                app:cardCornerRadius="25dp"-->
+<!--                app:strokeColor="@color/green"-->
+<!--                app:strokeWidth="2dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView32"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/sen" />-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:layout_weight="3"-->
+<!--                android:background="@drawable/bottom_border"-->
+<!--                android:orientation="vertical"-->
+<!--                android:paddingBottom="15dp">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/isim1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="Oguzhan Uzunay"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/detay1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="55 Minutes ago"-->
+<!--                    android:textSize="13sp" />-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linear13"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/linear12"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginRight="15dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingLeft="10dp">-->
+
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                app:cardCornerRadius="25dp"-->
+<!--                app:strokeColor="@color/DarkGray"-->
+<!--                app:strokeWidth="2dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView33"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/ege" />-->
+
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:layout_weight="3"-->
+<!--                android:background="@drawable/bottom_border"-->
+<!--                android:orientation="vertical"-->
+<!--                android:paddingBottom="15dp">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/isim2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="Ege Fitness"-->
+<!--                    android:textSize="15sp"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/detay2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="2 Hours ago"-->
+<!--                    android:textSize="13sp" />-->
+<!--            </LinearLayout>-->
+
+
+<!--        </LinearLayout>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/friendListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

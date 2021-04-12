@@ -2,11 +2,19 @@ package com.example.chuckapp.service
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.chuckapp.model.FirebaseToken
+import com.example.chuckapp.model.requestModels.Home.ActiveInactiveResponse
+import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.util.Constants
+import com.google.firebase.messaging.FirebaseMessaging
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Response
 
-class SessionManager (context: Context) {
+class SessionManager(val context: Context) {
 
-    private var prefs: SharedPreferences = context.getSharedPreferences(Constants.TokenPreferenceFile, Context.MODE_PRIVATE)
+    private var prefs: SharedPreferences =
+        context.getSharedPreferences(Constants.TokenPreferenceFile, Context.MODE_PRIVATE)
 
     companion object {
         const val USER_TOKEN = "user_token"
@@ -20,20 +28,28 @@ class SessionManager (context: Context) {
         editor.apply()
     }
 
-    fun savePermToken(token: String){
+    fun savePermToken(token: String) {
         val editor = prefs.edit()
         editor.putString(PERM_TOKEN, token)
         editor.apply()
     }
 
-    fun deleteTokens(){
+    fun deleteTokens() {
         val editor = prefs.edit()
         editor.clear()
         editor.apply()
     }
 
-    fun fetchAuthToken(): String? { return prefs.getString(USER_TOKEN, null) }
 
-    fun fetchPermToken(): String? { return prefs.getString(PERM_TOKEN, null) }
+
+
+
+    fun fetchAuthToken(): String? {
+        return prefs.getString(USER_TOKEN, null)
+    }
+
+    fun fetchPermToken(): String? {
+        return prefs.getString(PERM_TOKEN, null)
+    }
 
 }

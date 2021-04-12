@@ -1,5 +1,7 @@
 package com.example.chuckapp.model
 
+import android.view.View
+import com.example.chuckapp.model.friend.Friend
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -34,5 +36,10 @@ data class User(
 
     @SerializedName("deviceName")
     @Expose
-    var cihazIsmi: String
+    var cihazIsmi: String,
+
+    @SerializedName("friends")
+    val friends: List<Friend>
+
+
 )
