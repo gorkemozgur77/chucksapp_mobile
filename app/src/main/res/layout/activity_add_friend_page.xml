@@ -41,6 +41,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/searchFriendSearchView" />
+
+        <TextView
+            android:id="@+id/noSearchResultTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No search result!"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

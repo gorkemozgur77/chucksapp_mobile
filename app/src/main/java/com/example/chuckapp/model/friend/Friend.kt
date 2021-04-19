@@ -1,20 +1,20 @@
 package com.example.chuckapp.model.friend
 
-import android.view.View
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Friend(
-
 
 
     @SerializedName("id")
     val id: String,
 
     @SerializedName("fullName")
-    val fullname: String,
+    val fullName: String,
 
+    @SerializedName("status")
     var status: String
 
 
 
-)
+) : Serializable

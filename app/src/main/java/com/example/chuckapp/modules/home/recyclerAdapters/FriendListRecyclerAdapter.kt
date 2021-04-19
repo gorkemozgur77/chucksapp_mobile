@@ -1,13 +1,22 @@
 package com.example.chuckapp.modules.home.recyclerAdapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
+import com.example.chuckapp.model.requestModels.Home.SendIdRequestBody
+import com.example.chuckapp.modules.call.CallSenderActivity
+import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.friends_row.view.*
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
 
 class FriendListRecyclerAdapter(val context: Context) :
     RecyclerView.Adapter<FriendListRecyclerAdapter.FriendListViewHolder>() {
@@ -21,14 +30,17 @@ class FriendListRecyclerAdapter(val context: Context) :
     }
 
     override fun onBindViewHolder(holder: FriendListViewHolder, position: Int) {
-        holder.itemView.isim.text = friendList[position].fullname
+        holder.itemView.isim.text = friendList[position].fullName
         if (friendList[position].status == "ONLINE")
             holder.itemView.friendsRowCardView.strokeColor = context.getColor(R.color.green)
-        else
+        else if (friendList[position].status == "OFFLINE")
             holder.itemView.friendsRowCardView.strokeColor = context.getColor(R.color.red)
 
-    }
+        holder.itemView.setOnClickListener {
+            call(friendList[position].id, position)
 
+        }
+    }
 
     override fun getItemCount(): Int {
         return friendList.size
@@ -39,11 +51,39 @@ class FriendListRecyclerAdapter(val context: Context) :
         notifyDataSetChanged()
     }
 
-
     fun changeStatus(id: String, status: String) {
         val index = friendList.indexOf(friendList.filter { it.id == id }[0])
+
+        if (friendList[index].status == status)
+            return
         friendList[index].status = status
         notifyItemChanged(index)
+    }
+
+    private fun call(id: String, index: Int) {
+        HomeClient().getHomeApiService(context).callFriend(SendIdRequestBody(id))
+            .enqueue(object : retrofit2.Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful){
+                        val json = JSONObject(response.body()!!.string())
+                        val callId = json.getJSONObject("data").getString("id")
+                        val intent = Intent(context, CallSenderActivity::class.java)
+                        intent.putExtra("call_id", callId)
+                        intent.putExtra("friend",friendList[index])
+                        context.startActivity(intent)
+                    }
+
+
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Constants.showError(t)
+                }
+
+            })
     }
 
 }

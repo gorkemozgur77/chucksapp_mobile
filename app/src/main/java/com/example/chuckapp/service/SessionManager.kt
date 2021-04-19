@@ -2,14 +2,8 @@ package com.example.chuckapp.service
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.chuckapp.model.FirebaseToken
-import com.example.chuckapp.model.requestModels.Home.ActiveInactiveResponse
-import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.util.Constants
-import com.google.firebase.messaging.FirebaseMessaging
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Response
 
 class SessionManager(val context: Context) {
 
@@ -39,9 +33,6 @@ class SessionManager(val context: Context) {
         editor.clear()
         editor.apply()
     }
-
-
-
 
 
     fun fetchAuthToken(): String? {

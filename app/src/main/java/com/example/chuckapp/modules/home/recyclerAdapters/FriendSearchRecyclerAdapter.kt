@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
-import com.example.chuckapp.model.requestModels.Home.addFriendRequest
+import com.example.chuckapp.model.requestModels.Home.SendIdRequestBody
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.friends_row.view.*
@@ -30,7 +30,7 @@ class FriendSearchRecyclerAdapter(val context: Context) :
     }
 
     override fun onBindViewHolder(holder: FriendSearchViewHolder, position: Int) {
-        holder.itemView.isim.text = searchResult[position].fullname
+        holder.itemView.isim.text = searchResult[position].fullName
         holder.itemView.friendsRowCardView.strokeWidth = 0
         holder.itemView.linear11.setOnClickListener {
             withButtonCentered(searchResult[position])
@@ -51,7 +51,7 @@ class FriendSearchRecyclerAdapter(val context: Context) :
 
         val alertDialog = AlertDialog.Builder(context).create()
         alertDialog.setTitle("Add friend")
-        alertDialog.setMessage("Do you want to add ${friend.fullname}")
+        alertDialog.setMessage("Do you want to add ${friend.fullName}")
         alertDialog.setButton(
             AlertDialog.BUTTON_POSITIVE, "Yes"
         ) { _, _ ->
@@ -79,7 +79,7 @@ class FriendSearchRecyclerAdapter(val context: Context) :
     }
 
     private fun sendFriendRequest(id: String) {
-        HomeClient().getHomeApiService(context).addFriend(addFriendRequest(id))
+        HomeClient().getHomeApiService(context).addFriend(SendIdRequestBody(id))
             .enqueue(object : retrofit2.Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,

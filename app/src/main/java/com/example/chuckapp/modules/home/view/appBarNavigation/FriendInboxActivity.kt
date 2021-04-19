@@ -1,6 +1,8 @@
 package com.example.chuckapp.modules.home.view.appBarNavigation
 
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
@@ -23,7 +25,13 @@ class FriendInboxActivity : BaseActivity() {
         friendRequestInboxRecyclerView.apply {
             adapter = friendInboxRecyclerAdapter
             layoutManager = LinearLayoutManager(applicationContext)
+
+            if (isEmpty())
+                noRequestTextView.visibility = View.VISIBLE
+            else
+                noRequestTextView.visibility = View.GONE
         }
+
 
         topAppBarFriend.setNavigationOnClickListener {
             onBackPressed()

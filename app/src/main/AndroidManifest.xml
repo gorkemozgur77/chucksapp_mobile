@@ -18,8 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChuckApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".modules.home.view.appBarNavigation.FriendInboxActivity"></activity>
-        <activity android:name=".MainActivity2" />
+        <activity android:name=".modules.call.CallSenderActivity" />
+        <activity android:name=".modules.call.CallReceiverActivity" />
+        <activity android:name=".modules.home.view.appBarNavigation.FriendInboxActivity" />
         <activity android:name=".modules.home.view.appBarNavigation.AddFriendPage" />
         <activity android:name=".modules.home.view.HomePageActivity" />
         <activity android:name=".modules.auth.view.AuthActivity" />

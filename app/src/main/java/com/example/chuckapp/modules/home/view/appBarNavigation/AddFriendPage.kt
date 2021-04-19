@@ -1,11 +1,11 @@
 package com.example.chuckapp.modules.home.view.appBarNavigation
 
 import android.os.Bundle
+import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
-import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.model.requestModels.Home.FriendSearchRequestResponse
 import com.example.chuckapp.modules.home.recyclerAdapters.FriendSearchRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
@@ -27,6 +27,7 @@ class AddFriendPage : BaseActivity() {
         searchFriendRecyclerView.apply {
             adapter = searchListRecyclerAdapter
             layoutManager = LinearLayoutManager(applicationContext)
+
         }
 
         topAppBarFriend.setNavigationOnClickListener {
@@ -41,8 +42,12 @@ class AddFriendPage : BaseActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null && newText.length > 2) {
                     sendSearchRequest(newText)
-                } else
+
+                } else {
                     searchListRecyclerAdapter.updateSearchResult(listOf())
+                    noSearchResultTextView.visibility = View.GONE
+                }
+
                 return true
             }
 
@@ -63,10 +68,15 @@ class AddFriendPage : BaseActivity() {
                     response: Response<FriendSearchRequestResponse>
                 ) {
                     if (response.isSuccessful) {
-                        searchListRecyclerAdapter.updateSearchResult(listOf<Friend>())
+                        searchListRecyclerAdapter.updateSearchResult(listOf())
                         println(response.body())
                         response.body()
                             ?.let { searchListRecyclerAdapter.updateSearchResult(it.data) }
+                        if (response.body() == null)
+                            noSearchResultTextView.visibility = View.VISIBLE
+                        else
+                            noSearchResultTextView.visibility = View.GONE
+
                     } else
                         println(response.errorBody()?.string())
                 }

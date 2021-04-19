@@ -7,7 +7,6 @@ import com.example.chuckapp.model.requestModels.signUp.SignOutRequest
 import com.example.chuckapp.util.Constants
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface HomeApiService {
@@ -37,7 +36,7 @@ interface HomeApiService {
     fun searchFriend(@Query("userName") userName: String): Call<FriendSearchRequestResponse>
 
     @POST(Constants.ADD_FRIEND_URL)
-    fun addFriend(@Body requestId: addFriendRequest): Call<ResponseBody>
+    fun addFriend(@Body requestBodyId: SendIdRequestBody): Call<ResponseBody>
 
     @POST(Constants.ADD_FRIEND_URL+"/{user_id}/accept")
     fun acceptFriendRequest(@Path(value = "user_id", encoded = true) userId: String): Call<ResponseBody>
@@ -47,5 +46,16 @@ interface HomeApiService {
 
     @POST(Constants.SEND_TOKEN_URL)
     fun sendFirebaseToken(@Body firebaseToken: FirebaseToken): Call<ResponseBody>
+
+    @POST(Constants.CALL_URL)
+    fun callFriend(@Body requestBodyId: SendIdRequestBody): Call<ResponseBody>
+
+    @POST("call/{call_id}/decline")
+    fun declineCall(@Path(value = "call_id", encoded = true) callId: String): Call<ResponseBody>
+
+    @POST("call/{call_id}/interrupt")
+    fun interrupt(@Path(value = "call_id", encoded = true) callId: String): Call<ResponseBody>
+
+
 
 }

@@ -38,8 +38,8 @@ data class User(
     @Expose
     var cihazIsmi: String,
 
-    @SerializedName("friends")
-    val friends: List<Friend>
+    @SerializedName("friendList")
+    val friends: List<Friend>?
 
 
 )

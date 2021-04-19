@@ -18,7 +18,6 @@ import androidx.transition.TransitionManager
 import com.example.chuckapp.R
 import com.example.chuckapp.model.requestModels.Home.ActiveResponse
 import com.example.chuckapp.model.requestModels.Home.InactiveResponse
-import com.example.chuckapp.model.requestModels.Home.MeResponse
 import com.example.chuckapp.model.requestModels.auth.LoginResponse
 import com.example.chuckapp.model.requestModels.signUp.SignOutRequest
 import com.example.chuckapp.modules.auth.view.AuthActivity
@@ -27,13 +26,11 @@ import com.example.chuckapp.modules.home.recyclerAdapters.InactiveLogRecyclerAda
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
-import com.example.chuckapp.service.MyFirebaseInstanceIDService
 import com.example.chuckapp.service.SessionManager
 import com.example.chuckapp.util.Constants
 import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_account.*
-import kotlinx.android.synthetic.main.inactivelog_recycler_row.view.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
@@ -62,11 +59,10 @@ class AccountFragment : Fragment() {
         setupActiveStatusRecyclerView()
         setupInactiveStatusRecyclerView()
 
-
+        getInfo()
         context?.let {
             getActiveLog(it)
             getInactiveLog(it)
-            getInfo(it)
         }
 
         accountLoadMore.setOnClickListener {
@@ -91,17 +87,21 @@ class AccountFragment : Fragment() {
                 accountTopAppBar.setPadding(paddingPixel, 0, 0, 0)
                 accountTopAppBar.title = "Account"
             }
-            if (abs(verticalOffset) >= accountAppbarLayout.totalScrollRange / 3) {
-                toggle(true)
+            when {
+                abs(verticalOffset) >= accountAppbarLayout.totalScrollRange / 3 -> {
+                    toggle(true)
 
-            } else if (verticalOffset == 0) {
-                accountAppbarLayout.setPadding(0, 0, 0, 0);
-                accountTopAppBar.title = " "
-                accountCollapsingToolbar.isTitleEnabled = false
-                toggle(false)
+                }
+                verticalOffset == 0 -> {
+                    accountAppbarLayout.setPadding(0, 0, 0, 0);
+                    accountTopAppBar.title = " "
+                    accountCollapsingToolbar.isTitleEnabled = false
+                    toggle(false)
 
-            } else {
-                toggle(false)
+                }
+                else -> {
+                    toggle(false)
+                }
             }
         })
 
@@ -146,9 +146,12 @@ class AccountFragment : Fragment() {
         accountInactiveRecycler.adapter = inactiveRecyclerAdapter
     }
 
-    private fun getInfo(context: Context) {
-        accountProgressBar.visibility = View.VISIBLE
-        HomeClient().getHomeApiService(context).getProfile().enqueue(getInfoResponseHandler)
+    @SuppressLint("SetTextI18n")
+    private fun getInfo() {
+        val user = (activity as HomePageActivity).user
+        accountNameAndSurnameId.text =
+            "${user.isim}  ${user.soyisim}"
+        accountEmailId.text = user.eposta
     }
 
     private fun signOut(context: Context) {
@@ -249,12 +252,10 @@ class AccountFragment : Fragment() {
                 println(response.body())
                 context?.let { SessionManager(it).deleteTokens() }
                 FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener {
-                    if (it.isSuccessful){
+                    if (it.isSuccessful) {
                         println(it.result)
                         FirebaseMessaging.getInstance().deleteToken()
-                    }
-
-                    else
+                    } else
                         println("Silinemedi")
                 }
                 startActivity(Intent(context, AuthActivity::class.java))
@@ -268,22 +269,6 @@ class AccountFragment : Fragment() {
 
     }
 
-    private val getInfoResponseHandler = object : retrofit2.Callback<MeResponse> {
-
-        @SuppressLint("SetTextI18n")
-        override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
-            accountProgressBar.visibility = View.GONE
-            if (response.isSuccessful) {
-                accountNameAndSurnameId.text =
-                    response.body()?.user?.isim.toString() + " " + response.body()?.user?.soyisim.toString()
-                accountEmailId.text = response.body()?.user?.eposta.toString()
-            }
-        }
-
-        override fun onFailure(call: Call<MeResponse>, t: Throwable) {
-            Constants.showError(t)
-        }
-    }
 
     fun withButtonCentered(context: Context) {
 

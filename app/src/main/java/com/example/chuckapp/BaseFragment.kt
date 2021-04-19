@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.chuckapp.util.ProgressDialog
 
-open class BaseFragment: Fragment() {
+open class BaseFragment : Fragment() {
     var progressBar: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
