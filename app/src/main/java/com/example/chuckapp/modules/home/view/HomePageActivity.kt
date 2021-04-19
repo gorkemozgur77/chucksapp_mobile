@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.transition.Fade
@@ -13,7 +14,6 @@ import androidx.transition.TransitionManager
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
 import com.example.chuckapp.model.User
-import com.example.chuckapp.model.requestModels.Home.ActiveInactiveResponse
 import com.example.chuckapp.model.requestModels.Home.MeResponse
 import com.example.chuckapp.modules.home.recyclerAdapters.FriendListRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
@@ -39,9 +39,17 @@ class HomePageActivity : BaseActivity() {
         makeCurrentFragment(Bottomfragment1())
 
         home_page_bottomNavigationViewId.setOnNavigationItemSelectedListener {
+
             when (it.itemId) {
-                R.id.message -> makeCurrentFragment(Bottomfragment1())
-                R.id.account -> makeCurrentFragment(AccountFragment())
+                R.id.message -> {
+                    makeCurrentFragment(Bottomfragment1())
+                    if (friendListRecyclerAdapter.itemCount == 0)
+                        welcomeMessageTextView.visibility = View.VISIBLE
+                }
+                R.id.account -> {
+                    makeCurrentFragment(AccountFragment())
+                    welcomeMessageTextView.visibility = View.GONE
+                }
             }
             true
         }
@@ -114,13 +122,20 @@ class HomePageActivity : BaseActivity() {
                 override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
                     println(response.body())
                     if (response.isSuccessful) {
-                        response.body()?.user?.let { it.friends?.let { it1 ->
-                            friendListRecyclerAdapter.updateFriendList(
-                                it1
-                            )
-                        } }
+                        response.body()?.user?.let {
+                            it.friends?.let { it1 ->
+                                friendListRecyclerAdapter.updateFriendList(
+                                    it1
+                                )
+                            }
+                        }
                         user = response.body()?.user!!
+                        if (friendListRecyclerAdapter.itemCount == 0)
+                            welcomeMessageTextView.visibility = View.VISIBLE
+                        else
+                            welcomeMessageTextView.visibility = View.GONE
                     }
+
                 }
 
                 override fun onFailure(call: Call<MeResponse>, t: Throwable) {

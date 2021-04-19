@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.modules.home.service.HomeClient
@@ -17,7 +18,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 
-class CallSenderActivity : AppCompatActivity() {
+class CallSenderActivity : BaseActivity() {
 
     lateinit var callId: String
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,7 +2,6 @@ package com.example.chuckapp.modules.home.view.appBarNavigation
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
@@ -25,11 +24,6 @@ class FriendInboxActivity : BaseActivity() {
         friendRequestInboxRecyclerView.apply {
             adapter = friendInboxRecyclerAdapter
             layoutManager = LinearLayoutManager(applicationContext)
-
-            if (isEmpty())
-                noRequestTextView.visibility = View.VISIBLE
-            else
-                noRequestTextView.visibility = View.GONE
         }
 
 
@@ -40,12 +34,16 @@ class FriendInboxActivity : BaseActivity() {
         getFriendRequest()
     }
 
+
+
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    private fun getFriendRequest() {
+
+
+     private fun getFriendRequest() {
         HomeClient().getHomeApiService(this).getFriendRequests().enqueue(object :
             retrofit2.Callback<FriendInboxResponseModel> {
             override fun onResponse(
@@ -53,10 +51,14 @@ class FriendInboxActivity : BaseActivity() {
                 response: Response<FriendInboxResponseModel>
             ) {
                 println(response.body())
-                if (response.isSuccessful)
-
+                if (response.isSuccessful) {
                     response.body()?.data?.let { friendInboxRecyclerAdapter.updateInbox(it) }
-                else
+
+                    if (friendInboxRecyclerAdapter.itemCount == 0)
+                        noRequestTextView.visibility = View.VISIBLE
+                    else
+                        noRequestTextView.visibility = View.GONE
+                } else
                     print(response.errorBody()?.string())
             }
 

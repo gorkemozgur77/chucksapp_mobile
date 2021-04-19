@@ -19,7 +19,7 @@ open class BaseActivity : AppCompatActivity(), LifecycleObserver {
     var isUserOnline = false
     var progressBar: Dialog? = null
 
-    var boolean = false
+    var wasInBackground = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,26 +27,34 @@ open class BaseActivity : AppCompatActivity(), LifecycleObserver {
         progressBar = applicationContext?.let {
             ProgressDialog(it)
         }
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this);
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
-
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onAppBackgrounded() {
-        println("offLINE")
-        boolean = true
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onAppForegrounded() {
-        if (boolean) {
-            boolean = false
-            println("ONLINE")
-        }
+    fun onMoveToForeground() {
+        // app moved to foreground
+        wasInBackground = true
+    }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onMoveToBackground() {
+        // app moved to background
+        wasInBackground = false
+    }
 
+    override fun onStop() {
+        super.onStop()
+
+        if (!wasInBackground)
+            setUserInactive()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!wasInBackground)
+            setUserActive()
     }
 
 

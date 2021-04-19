@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.modules.home.service.HomeClient
@@ -20,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 
-class CallReceiverActivity : AppCompatActivity() {
+class CallReceiverActivity : BaseActivity() {
 
     private val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
     private lateinit var ringtone: Ringtone

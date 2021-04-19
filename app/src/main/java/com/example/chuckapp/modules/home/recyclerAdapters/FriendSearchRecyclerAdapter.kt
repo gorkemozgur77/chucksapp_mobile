@@ -11,6 +11,7 @@ import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.model.requestModels.Home.SendIdRequestBody
 import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
 import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.friends_row.view.*
 import okhttp3.ResponseBody
@@ -56,6 +57,7 @@ class FriendSearchRecyclerAdapter(val context: Context) :
             AlertDialog.BUTTON_POSITIVE, "Yes"
         ) { _, _ ->
             sendFriendRequest(friend.id)
+            (context as AddFriendPage).onBackPressed()
         }
 
         alertDialog.setButton(

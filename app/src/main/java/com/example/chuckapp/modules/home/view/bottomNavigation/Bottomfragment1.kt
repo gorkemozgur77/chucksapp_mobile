@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuckapp.BaseFragment
 import com.example.chuckapp.R
@@ -32,7 +33,6 @@ class Bottomfragment1 : BaseFragment() {
         friendListRecyclerView.adapter = (activity as HomePageActivity).friendListRecyclerAdapter
 
         topAppBar.setOnMenuItemClickListener {
-            (activity as HomePageActivity).isUserOnline = true
             when (it.itemId) {
                 R.id.addFriend -> navigateToAddFriend()
                 R.id.friendRequestBox -> {

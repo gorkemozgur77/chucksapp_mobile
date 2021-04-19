@@ -9,9 +9,11 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.FriendRequest
-import com.example.chuckapp.model.friend.Sender
+import com.example.chuckapp.model.requestModels.Home.FriendInboxResponseModel
 import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.modules.home.view.appBarNavigation.FriendInboxActivity
 import com.example.chuckapp.util.Constants
+import kotlinx.android.synthetic.main.activity_friend_inbox.*
 import kotlinx.android.synthetic.main.friends_row.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -30,6 +32,7 @@ class FriendInboxRecyclerAdapter(val context: Context) :
     }
 
     override fun onBindViewHolder(holder: FriendInboxViewHolder, position: Int) {
+
         holder.itemView.isim.text = inboxResult[position].sender.fullname
         holder.itemView.friendsRowCardView.strokeWidth = 0
         holder.itemView.linear11.setOnClickListener {
@@ -55,6 +58,7 @@ class FriendInboxRecyclerAdapter(val context: Context) :
             AlertDialog.BUTTON_POSITIVE, "Yes"
         ) { _, _ ->
             acceptFriendRequest(friend.id)
+
         }
 
         alertDialog.setButton(
@@ -84,9 +88,10 @@ class FriendInboxRecyclerAdapter(val context: Context) :
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
-                    if (response.isSuccessful)
+                    if (response.isSuccessful) {
                         println(response.body().toString())
-                    else
+                        (context as FriendInboxActivity).onBackPressed()
+                    } else
                         println(response.errorBody()?.string())
                 }
 
@@ -96,4 +101,6 @@ class FriendInboxRecyclerAdapter(val context: Context) :
 
             })
     }
+
+
 }

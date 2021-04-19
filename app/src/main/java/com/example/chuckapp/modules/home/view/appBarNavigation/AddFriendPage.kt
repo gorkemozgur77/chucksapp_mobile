@@ -72,10 +72,9 @@ class AddFriendPage : BaseActivity() {
                         println(response.body())
                         response.body()
                             ?.let { searchListRecyclerAdapter.updateSearchResult(it.data) }
-                        if (response.body() == null)
+                        if (searchListRecyclerAdapter.itemCount == 0)
                             noSearchResultTextView.visibility = View.VISIBLE
-                        else
-                            noSearchResultTextView.visibility = View.GONE
+                        else noSearchResultTextView.visibility = View.GONE
 
                     } else
                         println(response.errorBody()?.string())
