@@ -12,6 +12,7 @@ import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.modules.twilio.VideoActivity
 import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.activity_call_sender.*
 import okhttp3.ResponseBody
@@ -21,6 +22,9 @@ import retrofit2.Response
 class CallSenderActivity : BaseActivity() {
 
     lateinit var callId: String
+
+    var accessToken: String? = null
+    var roomName: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_call_sender)
@@ -44,7 +48,7 @@ class CallSenderActivity : BaseActivity() {
             (mMessageReceiver),
             IntentFilter("CallSenderData")
         )
-        val timer = object : CountDownTimer(6000, 1000) {
+        val timer = object : CountDownTimer(20000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
             }
@@ -80,9 +84,20 @@ class CallSenderActivity : BaseActivity() {
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            println("From broadcast    ------     " + intent.extras?.get("userId"))
             if (intent.getStringExtra("action") == "ON_CALL_DECLINED")
                 finish()
+            else if (intent.getStringExtra("action")== "ON_CALL_ACCEPTED"){
+                roomName = intent.getStringExtra("room_name")
+                accessToken = intent.getStringExtra("access_token")
+
+
+                val videoIntent = Intent(baseContext, VideoActivity::class.java)
+                videoIntent.putExtra("room_name", roomName)
+                videoIntent.putExtra("access_token", accessToken)
+                startActivity(videoIntent)
+                finish()
+
+            }
         }
     }
 }

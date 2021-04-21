@@ -31,7 +31,7 @@
                 android:layout_height="200dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/gorsel"
+                android:src="@drawable/background_image"
                 app:layout_collapseMode="parallax" />
 
             <com.google.android.material.card.MaterialCardView
@@ -39,16 +39,14 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="bottom|center"
-                app:cardCornerRadius="50dp"
-                app:strokeColor="@color/DarkGray"
-                app:strokeWidth="2dp">
+                app:cardCornerRadius="50dp">
 
                 <ImageView
                     android:id="@+id/accountProfilePicture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="Profile Picture"
-                    android:src="@drawable/ben" />
+                    android:src="@drawable/anonymous_person" />
 
             </com.google.android.material.card.MaterialCardView>
 

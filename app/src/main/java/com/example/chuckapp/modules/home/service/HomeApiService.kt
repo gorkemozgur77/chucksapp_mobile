@@ -53,6 +53,9 @@ interface HomeApiService {
     @POST("call/{call_id}/decline")
     fun declineCall(@Path(value = "call_id", encoded = true) callId: String): Call<ResponseBody>
 
+    @POST("call/{call_id}/accept")
+    fun acceptCall(@Path(value = "call_id", encoded = true) callId: String): Call<ResponseBody>
+
     @POST("call/{call_id}/interrupt")
     fun interrupt(@Path(value = "call_id", encoded = true) callId: String): Call<ResponseBody>
 

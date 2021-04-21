@@ -4,8 +4,6 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
-import android.view.View
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chuckapp.R
 import com.example.chuckapp.model.FirebaseToken
@@ -45,7 +43,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
 
 
     override fun onMessageReceived(message: RemoteMessage) {
-
+        val callRecieverIntent = Intent("CallReceiverData")
         println("------ "+message.data["title"])
 
         when (message.data["title"]){
@@ -66,27 +64,42 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
 
             "ON_CALL_DECLINED" -> {
                 val intent = Intent("CallSenderData")
-                intent.putExtra("action",message.data["title"])
+                intent.putExtra("action", message.data["title"])
                 broadcaster!!.sendBroadcast(intent)
             }
 
             "ON_CALL_INTERRUPTED" -> {
-                val intent = Intent("CallReceiverData")
-                intent.putExtra("action", "ON_CALL_INTERRUPTED" )
-                broadcaster!!.sendBroadcast(intent)
-                btnNotify()
+                callRecieverIntent.putExtra("action", "ON_CALL_INTERRUPTED")
+                broadcaster!!.sendBroadcast(callRecieverIntent)
+                btnNotify(message.data["name"].toString())
+            }
+
+            "ON_CALL_ACCEPTED" -> {
+                val senderIntent = Intent("CallSenderData")
+                val receiverFullName = message.data["receiver_full_name"].toString()
+                val accessToken = message.data["access_token"].toString()
+                val roomName = message.data["room_name"].toString()
+                senderIntent.putExtra("action", "ON_CALL_ACCEPTED")
+                senderIntent.putExtra("receiver_full_name", receiverFullName)
+                senderIntent.putExtra("access_token", accessToken)
+                senderIntent.putExtra("room_name", roomName)
+                broadcaster!!.sendBroadcast(senderIntent)
             }
         }
     }
 
-    private fun btnNotify() {
+    private fun btnNotify(caller: String) {
         val intent = Intent(this, LauncherActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        notificationChannel = NotificationChannel(channelId, description, NotificationManager .IMPORTANCE_HIGH)
+        val pendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        notificationChannel =
+            NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.lightColor = Color.BLUE
         notificationChannel.enableVibration(true)
         notificationManager.createNotificationChannel(notificationChannel)
-        builder = Notification.Builder(this, channelId).setContentTitle("1 Missing Call ").setContentText("Görkem Özgür").setSmallIcon(R.drawable .ic_sign_in_icon).setContentIntent(pendingIntent)
+        builder = Notification.Builder(this, channelId).setContentTitle("1 Missing Call ")
+            .setContentText(caller).setSmallIcon(R.drawable.ic_baseline_call_end_24)
+            .setContentIntent(pendingIntent)
         notificationManager.notify(12345, builder.build())
     }
 

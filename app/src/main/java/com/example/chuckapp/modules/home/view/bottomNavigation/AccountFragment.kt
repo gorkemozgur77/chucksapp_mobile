@@ -150,7 +150,7 @@ class AccountFragment : Fragment() {
     private fun getInfo() {
         val user = (activity as HomePageActivity).user
         accountNameAndSurnameId.text =
-            "${user.isim}  ${user.soyisim}"
+            "${user.isim} ${user.soyisim}"
         accountEmailId.text = user.eposta
     }
 
@@ -188,8 +188,10 @@ class AccountFragment : Fragment() {
                 accountLoadMore.visibility = View.VISIBLE
                 if (response.body()?.nexturl != null) {
                     nextUrlForInactiveLogs = response.body()!!.nexturl
+                    accountLoadMore.visibility = View.VISIBLE
                 } else {
                     nextUrlForInactiveLogs = null
+
                 }
             }
         }

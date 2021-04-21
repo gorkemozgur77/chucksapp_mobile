@@ -1,0 +1,31 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="circcc">
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+            <item>
+                <shape android:shape="rectangle" >
+                    <solid android:color="@android:color/transparent" />
+                </shape>
+
+            </item>
+            <item>
+                <shape
+                    android:innerRadiusRatio="2"
+                    android:shape="ring"
+                    android:thicknessRatio="1"
+                    android:useLevel="false" >
+                    <solid android:color="#80000000" />
+                    <size
+                        android:height="148dip"
+                        android:width="148dip" />
+
+                </shape>
+
+            </item>
+
+        </layer-list>
+    </dimen>
+</resources>

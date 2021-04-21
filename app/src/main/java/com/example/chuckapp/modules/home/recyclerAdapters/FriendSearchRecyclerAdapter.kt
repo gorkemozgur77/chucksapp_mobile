@@ -32,7 +32,7 @@ class FriendSearchRecyclerAdapter(val context: Context) :
 
     override fun onBindViewHolder(holder: FriendSearchViewHolder, position: Int) {
         holder.itemView.isim.text = searchResult[position].fullName
-        holder.itemView.friendsRowCardView.strokeWidth = 0
+        holder.itemView.onlineOfflineFab.hide()
         holder.itemView.linear11.setOnClickListener {
             withButtonCentered(searchResult[position])
         }

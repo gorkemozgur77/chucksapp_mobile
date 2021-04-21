@@ -34,7 +34,7 @@ class FriendInboxRecyclerAdapter(val context: Context) :
     override fun onBindViewHolder(holder: FriendInboxViewHolder, position: Int) {
 
         holder.itemView.isim.text = inboxResult[position].sender.fullname
-        holder.itemView.friendsRowCardView.strokeWidth = 0
+        holder.itemView.onlineOfflineFab.hide()
         holder.itemView.linear11.setOnClickListener {
             withButtonCentered(inboxResult[position])
         }

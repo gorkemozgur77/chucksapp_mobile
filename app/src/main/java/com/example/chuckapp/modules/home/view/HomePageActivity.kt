@@ -17,8 +17,10 @@ import com.example.chuckapp.model.User
 import com.example.chuckapp.model.requestModels.Home.MeResponse
 import com.example.chuckapp.modules.home.recyclerAdapters.FriendListRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment1
+import com.example.chuckapp.modules.twilio.VideoActivity
 import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.activity_home_page.*
 import retrofit2.Call
@@ -58,6 +60,10 @@ class HomePageActivity : BaseActivity() {
                 R.id.message -> print("")
                 R.id.account -> print("")
             }
+        }
+
+        fabId.setOnClickListener {
+            startActivity(Intent(baseContext, VideoActivity::class.java))
         }
 
     }

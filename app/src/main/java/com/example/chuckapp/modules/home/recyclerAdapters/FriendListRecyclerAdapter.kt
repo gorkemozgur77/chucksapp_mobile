@@ -1,10 +1,13 @@
 package com.example.chuckapp.modules.home.recyclerAdapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.Friend
@@ -22,6 +25,7 @@ class FriendListRecyclerAdapter(val context: Context) :
     RecyclerView.Adapter<FriendListRecyclerAdapter.FriendListViewHolder>() {
     class FriendListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+
     var friendList: List<Friend> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,12 +33,20 @@ class FriendListRecyclerAdapter(val context: Context) :
         return FriendListViewHolder(view)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: FriendListViewHolder, position: Int) {
         holder.itemView.isim.text = friendList[position].fullName
         if (friendList[position].status == "ONLINE")
-            holder.itemView.friendsRowCardView.strokeColor = context.getColor(R.color.green)
+            ViewCompat.setBackgroundTintList(
+                holder.itemView.onlineOfflineFab,
+                ColorStateList.valueOf(context.getColor(R.color.green))
+            )
         else if (friendList[position].status == "OFFLINE")
-            holder.itemView.friendsRowCardView.strokeColor = context.getColor(R.color.red)
+            ViewCompat.setBackgroundTintList(
+                holder.itemView.onlineOfflineFab,
+                ColorStateList.valueOf(context.getColor(R.color.red))
+            )
+
 
         holder.itemView.setOnClickListener {
             call(friendList[position].id, position)

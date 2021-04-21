@@ -6,31 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
-    android:layout_marginTop="10dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="15dp"
     android:background="@drawable/bottom_border"
     android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingBottom="15dp">
+    android:paddingBottom="10dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/friendsRowCardView"
+    <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="5dp"
-        app:cardCornerRadius="25dp"
-        app:strokeColor="@color/red"
-        app:strokeWidth="2dp">
+        android:layout_marginRight="10dp">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/benn" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/friendsRowCardView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="25dp"
+            app:fabCradleMargin="15dp"
+            app:fabCradleRoundedCornerRadius="30dp"
+            app:labelVisibilityMode="labeled">
 
-    </com.google.android.material.card.MaterialCardView>
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/anonymous_person" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/onlineOfflineFab"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:clickable="false"
+            app:layout_anchor="@id/friendsRowCardView"
+            app:layout_anchorGravity="right|end|top" />
+    </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+
 
     <TextView
         android:id="@+id/isim"
