@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
+import com.example.chuckapp.model.friend.Friend
 import com.example.chuckapp.model.requestModels.Home.FriendSearchRequestResponse
 import com.example.chuckapp.modules.home.recyclerAdapters.FriendSearchRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
@@ -22,6 +24,10 @@ class AddFriendPage : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_friend_page)
 
+
+
+
+
         searchListRecyclerAdapter = FriendSearchRecyclerAdapter(this)
 
         searchFriendRecyclerView.apply {
@@ -33,6 +39,11 @@ class AddFriendPage : BaseActivity() {
         topAppBarFriend.setNavigationOnClickListener {
             onBackPressed()
         }
+
+        //setupSearchbar()
+//        floating_search_view.setOnBindSuggestionCallback { suggestionView, leftIcon, textView, item, itemPosition ->
+//
+//        }
 
         searchFriendSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -54,6 +65,37 @@ class AddFriendPage : BaseActivity() {
         })
 
     }
+
+//    fun setupSearchbar(){
+//        floating_search_view.setOnQueryChangeListener { oldQuery, newQuery ->
+//            if (oldQuery.equals("") && newQuery.equals(""))
+//                floating_search_view.clearSuggestions()
+//            else {
+//                floating_search_view.showProgress()
+//                HomeClient().getHomeApiService(this).searchFriend(newQuery)
+//                    .enqueue(object : retrofit2.Callback<FriendSearchRequestResponse> {
+//                        override fun onResponse(
+//                            call: Call<FriendSearchRequestResponse>,
+//                            response: Response<FriendSearchRequestResponse>
+//                        ) {
+//                            if (response.isSuccessful) {
+//
+//
+//
+//                            } else
+//                                println(response.errorBody()?.string())
+//                        }
+//
+//                        override fun onFailure(call: Call<FriendSearchRequestResponse>, t: Throwable) {
+//                            Constants.showError(t)
+//                        }
+//
+//                    })
+//
+//
+//            }
+//        }
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

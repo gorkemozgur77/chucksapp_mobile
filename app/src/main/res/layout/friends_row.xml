@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linear11"
     android:layout_width="match_parent"
@@ -15,15 +16,13 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginEnd="10dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/friendsRowCardView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:cardCornerRadius="25dp"
-            app:fabCradleMargin="15dp"
-            app:fabCradleRoundedCornerRadius="30dp"
             app:labelVisibilityMode="labeled">
 
             <ImageView
@@ -34,15 +33,26 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/onlineOfflineFab"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:clickable="false"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/statusCardView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_anchorGravity="right|end|top"
             app:layout_anchor="@id/friendsRowCardView"
-            app:layout_anchorGravity="right|end|top" />
-    </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+            card_view:cardMaxElevation="0dp">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/onlineOfflineFab"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:clickable="false"
+                app:backgroundTint="@color/red" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
 
     <TextView
         android:id="@+id/isim"
