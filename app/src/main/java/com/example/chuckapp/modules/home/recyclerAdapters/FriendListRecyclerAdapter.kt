@@ -15,6 +15,7 @@ import com.example.chuckapp.model.requestModels.Home.SendIdRequestBody
 import com.example.chuckapp.modules.call.CallSenderActivity
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.util.Constants
+import com.example.chuckapp.util.setSafeOnClickListener
 import kotlinx.android.synthetic.main.friends_row.view.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -48,7 +49,7 @@ class FriendListRecyclerAdapter(val context: Context) :
             )
 
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setSafeOnClickListener {
             call(friendList[position].id, position)
 
         }
@@ -79,7 +80,9 @@ class FriendListRecyclerAdapter(val context: Context) :
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
+                    println("Response status code: "+response.code())
                     if (response.isSuccessful){
+
                         val json = JSONObject(response.body()!!.string())
                         val callId = json.getJSONObject("data").getString("id")
                         val intent = Intent(context, CallSenderActivity::class.java)

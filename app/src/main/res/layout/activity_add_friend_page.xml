@@ -29,19 +29,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <SearchView
-            android:id="@+id/searchFriendSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search User" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchFriendRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/searchFriendSearchView" />
-
         <TextView
             android:id="@+id/noSearchResultTextView"
             android:layout_width="wrap_content"
@@ -50,17 +37,76 @@
             android:text="No search result!"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
-<!--        <com.arlib.floatingsearchview.FloatingSearchView-->
-<!--            android:id="@+id/floating_search_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:floatingSearch_searchHint="Search..."-->
-<!--            app:floatingSearch_suggestionsListAnimDuration="250"-->
-<!--            app:floatingSearch_showSearchKey="false"-->
-<!--            app:floatingSearch_leftActionMode="showSearch"-->
-<!--            app:floatingSearch_close_search_on_keyboard_dismiss="true"/>-->
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/floating_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="6dp"
+            app:floatingSearch_close_search_on_keyboard_dismiss="false"
+            app:floatingSearch_dimBackground="true"
+            app:floatingSearch_dismissOnOutsideTouch="true"
+            app:floatingSearch_leftActionMode="showSearch"
+            app:floatingSearch_searchHint="Search..."
+            app:floatingSearch_showSearchKey="true"
+            app:floatingSearch_suggestionsListAnimDuration="250" />
+
+        <TextView
+            android:id="@+id/incomingBoxTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingTop="60dp"
+            android:text="Incoming Requests"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/incomingBoxCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/incomingBoxTextView"
+            android:layout_margin="10dp"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="13dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/incomingBoxRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/sendRequestsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/incomingBoxCardView"
+            android:layout_marginStart="10dp"
+            android:paddingTop="20dp"
+            android:text="Sent Requests"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sendRequestsCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sendRequestsTextView"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="13dp"
+            app:cardElevation="5dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sendRequestsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
     </RelativeLayout>
 

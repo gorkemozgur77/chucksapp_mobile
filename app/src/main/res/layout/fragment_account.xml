@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:collapsedTitleGravity="fill_vertical"
-            app:collapsedTitleTextAppearance="@color/etoDarkblue"
+            app:statusBarScrim="@android:color/transparent"
             app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:title="adsfasdf">

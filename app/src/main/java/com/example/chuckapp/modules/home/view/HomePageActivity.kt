@@ -17,11 +17,11 @@ import com.example.chuckapp.model.User
 import com.example.chuckapp.model.requestModels.Home.MeResponse
 import com.example.chuckapp.modules.home.recyclerAdapters.FriendListRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
-import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
 import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment1
 import com.example.chuckapp.modules.twilio.VideoActivity
 import com.example.chuckapp.util.Constants
+import com.example.chuckapp.util.InboxManager
 import kotlinx.android.synthetic.main.activity_home_page.*
 import retrofit2.Call
 import retrofit2.Response
@@ -121,21 +121,24 @@ class HomePageActivity : BaseActivity() {
     }
 
 
-    private fun getInfo(context: Context) {
+    fun getInfo(context: Context) {
         HomeClient().getHomeApiService(context).getProfile()
             .enqueue(object : retrofit2.Callback<MeResponse> {
 
                 override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
                     println(response.body())
                     if (response.isSuccessful) {
-                        response.body()?.user?.let {
-                            it.friends?.let { it1 ->
-                                friendListRecyclerAdapter.updateFriendList(
-                                    it1
-                                )
-                            }
-                        }
+                        InboxManager(baseContext).deleteAll()
+
                         user = response.body()?.user!!
+
+                        InboxManager(baseContext).apply {
+
+                            user.friends?.let { saveFriendList(it) }
+                            user.friendRequestInbox?.let { saveInbox(it) }
+                            friendListRecyclerAdapter.updateFriendList(fetchFriends())
+                        }
+
                         if (friendListRecyclerAdapter.itemCount == 0)
                             welcomeMessageTextView.visibility = View.VISIBLE
                         else

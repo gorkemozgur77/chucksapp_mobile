@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuckapp.BaseFragment
 import com.example.chuckapp.R
@@ -31,6 +30,11 @@ class Bottomfragment1 : BaseFragment() {
 
         friendListRecyclerView.layoutManager = LinearLayoutManager(context)
         friendListRecyclerView.adapter = (activity as HomePageActivity).friendListRecyclerAdapter
+
+        swipeRefreshLay.setOnRefreshListener {
+            (activity as HomePageActivity).getInfo((activity as HomePageActivity).baseContext)
+            swipeRefreshLay.isRefreshing = false
+        }
 
         topAppBar.setOnMenuItemClickListener {
             when (it.itemId) {

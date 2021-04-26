@@ -121,7 +121,8 @@ class SignupFragment : Fragment() {
             authUtil.getIpAdress(context),
             authUtil.getMacAdress(context),
             authUtil.getDeviceName(),
-            friends = listOf()
+            friends = listOf(),
+            friendRequestInbox = null
         )
     }
 

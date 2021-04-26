@@ -33,9 +33,9 @@ class FriendSearchRecyclerAdapter(val context: Context) :
     override fun onBindViewHolder(holder: FriendSearchViewHolder, position: Int) {
         holder.itemView.isim.text = searchResult[position].fullName
         holder.itemView.statusCardView.visibility = View.GONE
-        holder.itemView.linear11.setOnClickListener {
-            withButtonCentered(searchResult[position])
-        }
+//        holder.itemView.linear11.setOnClickListener {
+//            withButtonCentered(searchResult[position])
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -48,57 +48,39 @@ class FriendSearchRecyclerAdapter(val context: Context) :
     }
 
 
-    private fun withButtonCentered(friend: Friend) {
+//    private fun withButtonCentered(friend: Friend) {
+//
+//        val alertDialog = AlertDialog.Builder(context).create()
+//        alertDialog.setTitle("Add friend")
+//        alertDialog.setMessage("Do you want to add ${friend.fullName}")
+//        alertDialog.setButton(
+//            AlertDialog.BUTTON_POSITIVE, "Yes"
+//        ) { _, _ ->
+//            sendFriendRequest(friend.id)
+//            (context as AddFriendPage).onBackPressed()
+//        }
+//
+//        alertDialog.setButton(
+//            AlertDialog.BUTTON_NEGATIVE, "No"
+//        ) { dialog, which -> dialog.dismiss() }
+//
+//
+//        alertDialog.show()
+//
+//        val btnPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+//        val btnNegative = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+//
+//
+//        val layoutParams = btnPositive.layoutParams as LinearLayout.LayoutParams
+//        layoutParams.weight = 10f
+//
+//        btnPositive.setTextColor(context.resources.getColor(R.color.white))
+//        btnPositive.setBackgroundColor(context.resources.getColor(R.color.etoBlue))
+//        btnPositive.layoutParams = layoutParams
+//        btnNegative.layoutParams = layoutParams
+//    }
 
-        val alertDialog = AlertDialog.Builder(context).create()
-        alertDialog.setTitle("Add friend")
-        alertDialog.setMessage("Do you want to add ${friend.fullName}")
-        alertDialog.setButton(
-            AlertDialog.BUTTON_POSITIVE, "Yes"
-        ) { _, _ ->
-            sendFriendRequest(friend.id)
-            (context as AddFriendPage).onBackPressed()
-        }
 
-        alertDialog.setButton(
-            AlertDialog.BUTTON_NEGATIVE, "No"
-        ) { dialog, which -> dialog.dismiss() }
-
-
-        alertDialog.show()
-
-        val btnPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        val btnNegative = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-
-
-        val layoutParams = btnPositive.layoutParams as LinearLayout.LayoutParams
-        layoutParams.weight = 10f
-
-        btnPositive.setTextColor(context.resources.getColor(R.color.white))
-        btnPositive.setBackgroundColor(context.resources.getColor(R.color.etoBlue))
-        btnPositive.layoutParams = layoutParams
-        btnNegative.layoutParams = layoutParams
-    }
-
-    private fun sendFriendRequest(id: String) {
-        HomeClient().getHomeApiService(context).addFriend(SendIdRequestBody(id))
-            .enqueue(object : retrofit2.Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    if (response.isSuccessful)
-                        println(response.body()?.string())
-                    else
-                        println(response.errorBody()?.string())
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Constants.showError(t)
-                }
-
-            })
-    }
 
 
 

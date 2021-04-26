@@ -1,6 +1,7 @@
 package com.example.chuckapp.model.requestModels.Home
 
 import com.example.chuckapp.model.friend.Friend
+import com.example.chuckapp.model.friend.FriendSuggestion
 import com.google.gson.annotations.SerializedName
 
 data class FriendSearchRequestResponse(
@@ -21,5 +22,5 @@ data class FriendSearchRequestResponse(
     val count: Int,
 
     @SerializedName("data")
-    val data: List<Friend>
+    val data: List<FriendSuggestion>
 )

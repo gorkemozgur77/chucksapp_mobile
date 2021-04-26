@@ -1,7 +1,7 @@
 package com.example.chuckapp.model
 
-import android.view.View
 import com.example.chuckapp.model.friend.Friend
+import com.example.chuckapp.model.friend.FriendRequestInbox
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -39,7 +39,9 @@ data class User(
     var cihazIsmi: String,
 
     @SerializedName("friendList")
-    val friends: List<Friend>?
+    val friends: List<Friend>?,
 
+    @SerializedName("friendRequestInbox")
+    val friendRequestInbox: FriendRequestInbox?
 
 )

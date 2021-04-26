@@ -30,14 +30,21 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".modules.twilio.VideoActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.FullScreenWithTitle" />
         <activity android:name=".modules.twilio.SettingsActivity" />
-        <activity android:name=".modules.call.CallSenderActivity" />
-        <activity android:name=".modules.call.CallReceiverActivity" />
+        <activity
+            android:name=".modules.call.CallSenderActivity"
+            android:theme="@style/Theme.AppCompat.FullScreenWithTitle" />
+        <activity
+            android:name=".modules.call.CallReceiverActivity"
+            android:theme="@style/Theme.AppCompat.FullScreenWithTitle" />
         <activity android:name=".modules.home.view.appBarNavigation.FriendInboxActivity" />
         <activity android:name=".modules.home.view.appBarNavigation.AddFriendPage" />
         <activity android:name=".modules.home.view.HomePageActivity" />
-        <activity android:name=".modules.auth.view.AuthActivity" />
+        <activity
+            android:name=".modules.auth.view.AuthActivity"
+            android:theme="@style/Theme.AppCompat.FullScreenWithTitle" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

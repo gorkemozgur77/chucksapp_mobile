@@ -45,6 +45,8 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         val callRecieverIntent = Intent("CallReceiverData")
         println("------ "+message.data["title"])
+        println("Calleeer     "+message.data["caller_full_name"])
+
 
         when (message.data["title"]){
             "ONLINE", "OFFLINE" -> {
@@ -71,7 +73,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
             "ON_CALL_INTERRUPTED" -> {
                 callRecieverIntent.putExtra("action", "ON_CALL_INTERRUPTED")
                 broadcaster!!.sendBroadcast(callRecieverIntent)
-                btnNotify(message.data["name"].toString())
+                btnNotify(message.data["caller_full_name"].toString())
             }
 
             "ON_CALL_ACCEPTED" -> {
@@ -98,7 +100,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
         notificationChannel.enableVibration(true)
         notificationManager.createNotificationChannel(notificationChannel)
         builder = Notification.Builder(this, channelId).setContentTitle("1 Missing Call ")
-            .setContentText(caller).setSmallIcon(R.drawable.ic_baseline_call_end_24)
+            .setContentText(caller).setSmallIcon(R.drawable.ic_baseline_phone_missed_24)
             .setContentIntent(pendingIntent)
         notificationManager.notify(12345, builder.build())
     }

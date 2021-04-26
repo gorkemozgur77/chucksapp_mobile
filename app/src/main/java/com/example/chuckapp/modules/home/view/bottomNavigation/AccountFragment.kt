@@ -191,6 +191,8 @@ class AccountFragment : Fragment() {
                     accountLoadMore.visibility = View.VISIBLE
                 } else {
                     nextUrlForInactiveLogs = null
+                    accountLoadMore.visibility = View.GONE
+
 
                 }
             }

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/addFriend"
         android:icon="@drawable/ic_baseline_person_add_24"
-        android:title="Message"
+        android:title="Add Friend"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/friendRequestBox"
