@@ -66,7 +66,6 @@ class FriendListRecyclerAdapter(val context: Context) :
 
     fun changeStatus(id: String, status: String) {
         val index = friendList.indexOf(friendList.filter { it.id == id }[0])
-
         if (friendList[index].status == status)
             return
         friendList[index].status = status

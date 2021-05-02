@@ -2,6 +2,7 @@ package com.example.chuckapp
 
 import android.app.Dialog
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -11,11 +12,10 @@ import com.example.chuckapp.model.requestModels.Home.ActiveInactiveResponse
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.ProgressDialog
-import com.example.chuckapp.util.hideKeyboard
 import retrofit2.Call
 import retrofit2.Response
 
-open class BaseActivity : AppCompatActivity(), LifecycleObserver {
+abstract class BaseActivity : AppCompatActivity(), LifecycleObserver {
 
     var isUserOnline = false
     var progressBar: Dialog? = null
@@ -25,12 +25,19 @@ open class BaseActivity : AppCompatActivity(), LifecycleObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        progressBar = applicationContext?.let {
-            ProgressDialog(it)
-        }
+        progressBar = ProgressDialog(this)
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(this);
 
 
+    }
+
+    fun showProgressBar() {
+        progressBar?.show()
+    }
+
+    fun hideProgressBar() {
+        progressBar?.hide()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

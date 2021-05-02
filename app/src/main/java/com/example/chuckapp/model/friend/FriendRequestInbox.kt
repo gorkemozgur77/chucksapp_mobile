@@ -6,9 +6,9 @@ import java.io.Serializable
 data class FriendRequestInbox(
 
     @SerializedName("sent")
-    val sent : List<SentRequest>,
+    val sent : MutableList<SentRequest>,
 
     @SerializedName("received")
-    val received : List<ReceivedRequest>
+    val received : MutableList<ReceivedRequest>
 
 ): Serializable

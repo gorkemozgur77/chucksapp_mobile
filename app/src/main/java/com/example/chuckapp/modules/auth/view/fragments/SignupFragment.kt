@@ -118,10 +118,10 @@ class SignupFragment : Fragment() {
             emailId.text.toString(),
             passWordId.text.toString(),
             Constants.PLATFORM_NAME,
-            authUtil.getIpAdress(context),
-            authUtil.getMacAdress(context),
+            authUtil.getIpAddress(context),
+            authUtil.getMacAddress(context),
             authUtil.getDeviceName(),
-            friends = listOf(),
+            friends = mutableListOf(),
             friendRequestInbox = null
         )
     }

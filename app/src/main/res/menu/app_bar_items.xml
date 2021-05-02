@@ -7,9 +7,4 @@
         android:icon="@drawable/ic_baseline_person_add_24"
         android:title="Add Friend"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/friendRequestBox"
-        android:icon="@drawable/ic_baseline_inbox_24"
-        android:title="Message"
-        app:showAsAction="ifRoom" />
 </menu>

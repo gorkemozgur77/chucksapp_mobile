@@ -45,67 +45,129 @@
             android:layout_height="match_parent"
             android:elevation="6dp"
             app:floatingSearch_close_search_on_keyboard_dismiss="false"
-            app:floatingSearch_dimBackground="true"
+            app:floatingSearch_dimBackground="false"
             app:floatingSearch_dismissOnOutsideTouch="true"
             app:floatingSearch_leftActionMode="showSearch"
             app:floatingSearch_searchHint="Search..."
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250" />
 
-        <TextView
-            android:id="@+id/incomingBoxTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:paddingTop="60dp"
-            android:text="Incoming Requests"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/incomingBoxCardView"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/incomingBoxTextView"
-            android:layout_margin="10dp"
-            app:cardElevation="5dp"
-            app:cardCornerRadius="13dp">
+            android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/incomingBoxRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/incomingBoxTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:paddingTop="60dp"
+                    android:text="Incoming Requests"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/sendRequestsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/incomingBoxCardView"
-            android:layout_marginStart="10dp"
-            android:paddingTop="20dp"
-            android:text="Sent Requests"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+                <ViewFlipper
+                    android:id="@+id/viewFlipper1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/incomingBoxTextView">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sendRequestsCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sendRequestsTextView"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="13dp"
-            app:cardElevation="5dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/incomingBoxCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/incomingBoxTextView"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="13dp"
+                        app:cardElevation="5dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/sendRequestsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/incomingBoxRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="never" />
 
-        </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="No Request Found"
+                            android:textColor="#d3d3d3"
+                            android:textSize="25sp" />
+
+                    </RelativeLayout>
+                </ViewFlipper>
+
+                <TextView
+                    android:id="@+id/sendRequestsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/viewFlipper1"
+                    android:layout_marginStart="10dp"
+                    android:paddingTop="20dp"
+                    android:text="Sent Requests"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <ViewFlipper
+                    android:id="@+id/viewFlipper2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sendRequestsTextView">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/sendRequestsCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="13dp"
+                        app:cardElevation="5dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/sendRequestsRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="never" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="No Request Found"
+                            android:textColor="#d3d3d3"
+                            android:textSize="25sp" />
+
+                    </RelativeLayout>
+
+                </ViewFlipper>
+
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
 
     </RelativeLayout>

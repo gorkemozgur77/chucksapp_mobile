@@ -1,17 +1,22 @@
 package com.example.chuckapp.modules.home.view.appBarNavigation
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
+import android.util.TypedValue
+import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
 import com.example.chuckapp.model.friend.FriendSuggestion
 import com.example.chuckapp.model.requestModels.Home.FriendSearchRequestResponse
+import com.example.chuckapp.model.requestModels.Home.MeResponse
 import com.example.chuckapp.model.requestModels.Home.SendIdRequestBody
 import com.example.chuckapp.modules.home.recyclerAdapters.IncomingRequestsRecyclerAdapter
 import com.example.chuckapp.modules.home.recyclerAdapters.UpcomingRequestsRecyclerAdapter
@@ -19,8 +24,8 @@ import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.InboxManager
 import kotlinx.android.synthetic.main.activity_add_friend_page.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import okhttp3.Dispatcher
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -48,8 +53,8 @@ class AddFriendPage : BaseActivity() {
         topAppBarFriend.setNavigationOnClickListener {
             onBackPressed()
         }
-
         setupSearchBar()
+
 
     }
 
@@ -70,6 +75,31 @@ class AddFriendPage : BaseActivity() {
             adapter = incomingRequestsRecyclerAdapter
             layoutManager = LinearLayoutManager(baseContext)
         }
+        incomingRequestsRecyclerAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onChanged() {
+                super.onChanged()
+                checkEmpty()
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                checkEmpty()
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                super.onItemRangeRemoved(positionStart, itemCount)
+                checkEmpty()
+            }
+
+            fun checkEmpty() {
+                if (incomingRequestsRecyclerAdapter.itemCount == 0){
+                    viewFlipper1.showNext()
+                    val a = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 77F, resources.displayMetrics)
+                    sendRequestsTextView.setPadding(0, a.toInt(),0,0)
+                }
+
+            }
+        })
     }
 
     private fun setupUpcomingRecyclerView(){
@@ -78,6 +108,37 @@ class AddFriendPage : BaseActivity() {
             adapter = upcomingRequestsRecyclerAdapter
             layoutManager = LinearLayoutManager(baseContext)
         }
+        upcomingRequestsRecyclerAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            var flipperChecker = false
+
+            override fun onChanged() {
+                super.onChanged()
+                checkEmpty()
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                checkEmpty()
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                super.onItemRangeRemoved(positionStart, itemCount)
+                checkEmpty()
+            }
+
+
+            fun checkEmpty() {
+                if (upcomingRequestsRecyclerAdapter.itemCount == 0){
+                    viewFlipper2.showNext()
+                    flipperChecker = true
+                }
+                else if (upcomingRequestsRecyclerAdapter.itemCount > 0 && flipperChecker){
+                    viewFlipper2.showPrevious()
+                    flipperChecker = false
+                }
+
+            }
+        })
     }
 
     private fun setupSearchBar() {
@@ -102,9 +163,9 @@ class AddFriendPage : BaseActivity() {
                                     swapSuggestions(response.body()?.data)
                                     lifecycleScope.launch {
                                         delay(2000)
-                                        for (friendSuggeston in response.body()!!.data) {
-                                            if (!history.any { it.id == friendSuggeston.id })
-                                                history.add(friendSuggeston)
+                                        for (friendSuggestion in response.body()!!.data) {
+                                            if (!history.any { it.id == friendSuggestion.id })
+                                                history.add(friendSuggestion)
                                         }
                                         history.forEach { it.mIsHistory = true }
                                     }
@@ -160,7 +221,6 @@ class AddFriendPage : BaseActivity() {
 
             setOnBindSuggestionCallback { suggestionView, leftIcon, textView, item, itemPosition ->
 
-                val a = item
                 val textColor = "#787878"
                 val textLight = "#000000"
                 if (history.contains(item)) {
@@ -183,7 +243,7 @@ class AddFriendPage : BaseActivity() {
                 );//bottom
 
                 textView.setTextColor(Color.parseColor(textColor))
-                val text: String = a.body!!.replaceFirst(
+                val text: String = item.body!!.replaceFirst(
                     floating_search_view.getQuery(),
                     "<font color=\"$textLight\">" + floating_search_view.query
                         .toString() + "</font>"
@@ -194,22 +254,52 @@ class AddFriendPage : BaseActivity() {
     }
 
     private fun sendFriendRequest(id: String) {
+        val sentTime = System.currentTimeMillis()
+        showProgressBar()
         HomeClient().getHomeApiService(baseContext).addFriend(SendIdRequestBody(id))
             .enqueue(object : retrofit2.Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
-                    if (response.isSuccessful)
-                        println(response.body()?.string())
+                    if ((System.currentTimeMillis() - sentTime) < 500){
+                        GlobalScope.launch {
+                            delay(1000)
+                            withContext(Dispatchers.Main){
+                                getInfo(baseContext)
+                                hideProgressBar()
+                            }
+                        }
+                    }
                     else
-                        println(response.errorBody()?.string())
+                        hideProgressBar()
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Constants.showError(t)
                 }
 
+            })
+    }
+
+    private fun getInfo(context: Context) {
+        HomeClient().getHomeApiService(context).getProfile()
+            .enqueue(object : retrofit2.Callback<MeResponse> {
+                override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
+                    println(response.body())
+                    if (response.isSuccessful) {
+                        InboxManager(context).deleteAll()
+                        val user = response.body()?.user!!
+                        InboxManager(context).apply {
+                            user.friendRequestInbox?.let { saveInbox(it) }
+                            upcomingRequestsRecyclerAdapter.updateInbox(fetchSentRequests())
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<MeResponse>, t: Throwable) {
+                    Constants.showError(t)
+                }
             })
     }
 

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object Constants {
-    const val BASE_URL = "http://10.0.2.2:8081/"
+    const val BASE_URL = "http://35.198.188.79:8081/"
     const val LOCAL_BASE_URL = "http://10.0.2.2:8081/"
     const val LOGIN_WITH_EMAIL_URL = "auth/sign-in"
     const val LOGIN_WITH_TOKEN_URL = "auth/refresh"

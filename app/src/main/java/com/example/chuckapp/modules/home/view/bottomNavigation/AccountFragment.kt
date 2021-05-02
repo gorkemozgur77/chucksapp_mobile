@@ -10,11 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import com.example.chuckapp.BaseFragment
 import com.example.chuckapp.R
 import com.example.chuckapp.model.requestModels.Home.ActiveResponse
 import com.example.chuckapp.model.requestModels.Home.InactiveResponse
@@ -37,7 +37,7 @@ import retrofit2.Response
 import kotlin.math.abs
 
 
-class AccountFragment : Fragment() {
+class AccountFragment : BaseFragment() {
 
 
     lateinit var activeRecyclerAdapter: ActiveLogRecyclerAdapter
@@ -160,6 +160,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun getActiveLog(context: Context) {
+        showProgressBar()
         HomeClient().getHomeApiService(context).getActiveEntries()
             .enqueue(getActiveLogResponseHandler)
     }
@@ -238,6 +239,7 @@ class AccountFragment : Fragment() {
 
 
         override fun onResponse(call: Call<ActiveResponse>, response: Response<ActiveResponse>) {
+            hideProgressBar()
             if (response.isSuccessful) {
                 println(response.body())
                 response.body()?.entry?.let { activeRecyclerAdapter.setActiveListItems(it) }

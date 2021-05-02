@@ -29,7 +29,7 @@ class InboxManager(val context: Context) {
         editor.apply()
     }
 
-    fun saveFriendList(friend: List<Friend>){
+    fun saveFriendList(friend: MutableList<Friend>){
         val editor = prefs.edit()
         val gson = Gson()
         val json = gson.toJson(friend);
@@ -37,13 +37,13 @@ class InboxManager(val context: Context) {
         editor.apply();
     }
 
-    fun fetchFriends(): List<Friend>{
+    fun fetchFriends(): MutableList<Friend>{
         val gson = Gson()
         val json = prefs.getString(FRIEND_LIST, null)
         return if (json != null) {
             val type: Type = object : TypeToken<List<Friend?>?>() {}.type
             gson.fromJson(json, type)
-        } else listOf()
+        } else mutableListOf()
     }
 
     private fun fetchInbox(): FriendRequestInbox {
@@ -52,9 +52,9 @@ class InboxManager(val context: Context) {
         return gson.fromJson(json, FriendRequestInbox::class.java)
     }
 
-    fun fetchSentRequests(): List<SentRequest> { return fetchInbox().sent }
+    fun fetchSentRequests(): MutableList<SentRequest> { return fetchInbox().sent }
 
-    fun fetchReceivedRequests(): List<ReceivedRequest> { return fetchInbox().received }
+    fun fetchReceivedRequests(): MutableList<ReceivedRequest> { return fetchInbox().received }
 
     fun deleteAll() {
         val editor = prefs.edit()

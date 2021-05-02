@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/etoBlue"
             app:fabSize="mini"
             android:layout_marginBottom="@dimen/fab_margin"
             android:src="@drawable/ic_switch_camera_white_24dp" />
@@ -48,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/fab_margin"
+            android:backgroundTint="@color/etoBlue"
             android:layout_gravity="center"
             app:fabSize="mini"
             android:src="@drawable/ic_videocam_white_24dp" />
@@ -55,6 +57,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/muteActionFab"
             android:layout_width="wrap_content"
+            android:backgroundTint="@color/etoBlue"
             android:layout_height="wrap_content"
             app:fabSize="mini"
             android:layout_gravity="center"
@@ -63,6 +66,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/connectActionFab"
             android:layout_width="wrap_content"
+            android:backgroundTint="@color/etoBlue"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             app:fabSize="normal"

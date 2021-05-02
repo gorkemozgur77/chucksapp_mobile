@@ -48,26 +48,43 @@
                 android:text="10.0.0.2" />
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/statusProgressbar"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="3"
+            android:visibility="gone"
+            android:paddingTop="5dp"
+            android:textSize="13sp" />
+
         <LinearLayout
+            android:id="@+id/rejectOrAcceptButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="3">
+
             <ImageButton
                 android:id="@+id/rejectButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:src="@drawable/ic_baseline_close_24"
-                app:backgroundTint="@android:color/transparent" />
+                android:background="@drawable/image_button_stroke"
+                android:src="@drawable/ic_baseline_close_24" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
 
             <ImageButton
                 android:id="@+id/acceptButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:src="@drawable/ic_baseline_done_24"
-                app:backgroundTint="@android:color/transparent" />
+                android:background="@drawable/image_button_stroke"
+                android:src="@drawable/ic_baseline_done_24" />
         </LinearLayout>
 
     </LinearLayout>

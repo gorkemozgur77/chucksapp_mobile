@@ -154,8 +154,8 @@ class LoginFragment : Fragment() {
             loginEmailId.text.toString(),
             loginPasswordId.text.toString(),
             Constants.PLATFORM_NAME,
-            authUtil.getIpAdress(context),
-            authUtil.getMacAdress(context),
+            authUtil.getIpAddress(context),
+            authUtil.getMacAddress(context),
             authUtil.getDeviceName()
         )
     }

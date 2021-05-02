@@ -41,6 +41,12 @@ interface HomeApiService {
     @POST(Constants.ADD_FRIEND_URL+"/{user_id}/accept")
     fun acceptFriendRequest(@Path(value = "user_id", encoded = true) userId: String): Call<ResponseBody>
 
+    @POST(Constants.ADD_FRIEND_URL+"/{user_id}/reject")
+    fun rejectFriendRequest(@Path(value = "user_id", encoded = true) userId: String): Call<ResponseBody>
+
+    @DELETE(Constants.ADD_FRIEND_URL+"/{friend_request_id}")
+    fun cancelFriendRequest(@Path(value = "friend_request_id", encoded = true) friendRequestId: String): Call<ResponseBody>
+
     @GET("friend-requests?role=RECEIVER")
     fun getFriendRequests(): Call<FriendInboxResponseModel>
 

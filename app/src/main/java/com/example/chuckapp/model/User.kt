@@ -39,7 +39,7 @@ data class User(
     var cihazIsmi: String,
 
     @SerializedName("friendList")
-    val friends: List<Friend>?,
+    val friends: MutableList<Friend>?,
 
     @SerializedName("friendRequestInbox")
     val friendRequestInbox: FriendRequestInbox?

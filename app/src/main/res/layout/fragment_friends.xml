@@ -19,8 +19,18 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/Widget.MaterialComponents.BottomNavigationView"
             app:menu="@menu/app_bar_items"
-            app:title="ChucksApp"
-            app:titleTextColor="@color/black" />
+            app:titleTextColor="@color/black">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/chucksapp"
+                android:layout_marginStart="30dp"
+                android:scaleY="2.5"
+                android:scaleX="2.5"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?android:attr/actionBarSize"
-        tools:context=".modules.home.view.bottomNavigation.Bottomfragment1">
+        tools:context=".modules.home.view.bottomNavigation.FriendsFragment">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLay"

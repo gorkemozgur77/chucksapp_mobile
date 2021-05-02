@@ -31,7 +31,7 @@ import com.twilio.video.ktx.createLocalVideoTrack
 import kotlinx.android.synthetic.main.activity_video.*
 import kotlinx.android.synthetic.main.activity_video.topAppBar
 import kotlinx.android.synthetic.main.content_video.*
-import kotlinx.android.synthetic.main.fragment_bottomfragment1.*
+import kotlinx.android.synthetic.main.fragment_friends.*
 import tvi.webrtc.VideoSink
 import java.util.*
 import kotlin.properties.Delegates
@@ -182,6 +182,7 @@ class VideoActivity : AppCompatActivity() {
 
         override fun onParticipantDisconnected(room: Room, participant: RemoteParticipant) {
             removeRemoteParticipant(participant)
+
         }
 
         override fun onRecordingStarted(room: Room) {

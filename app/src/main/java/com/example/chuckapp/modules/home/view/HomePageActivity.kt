@@ -18,7 +18,7 @@ import com.example.chuckapp.model.requestModels.Home.MeResponse
 import com.example.chuckapp.modules.home.recyclerAdapters.FriendListRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
-import com.example.chuckapp.modules.home.view.bottomNavigation.Bottomfragment1
+import com.example.chuckapp.modules.home.view.bottomNavigation.FriendsFragment
 import com.example.chuckapp.modules.twilio.VideoActivity
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.InboxManager
@@ -38,13 +38,13 @@ class HomePageActivity : BaseActivity() {
         friendListRecyclerAdapter = FriendListRecyclerAdapter(this)
         home_page_bottomNavigationViewId.background = null
         home_page_bottomNavigationViewId.menu.getItem(1).isEnabled = false
-        makeCurrentFragment(Bottomfragment1())
+        makeCurrentFragment(FriendsFragment())
 
         home_page_bottomNavigationViewId.setOnNavigationItemSelectedListener {
 
             when (it.itemId) {
                 R.id.message -> {
-                    makeCurrentFragment(Bottomfragment1())
+                    makeCurrentFragment(FriendsFragment())
                     if (friendListRecyclerAdapter.itemCount == 0)
                         welcomeMessageTextView.visibility = View.VISIBLE
                 }
@@ -66,6 +66,8 @@ class HomePageActivity : BaseActivity() {
             startActivity(Intent(baseContext, VideoActivity::class.java))
         }
 
+
+
     }
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -78,25 +80,14 @@ class HomePageActivity : BaseActivity() {
         }
     }
 
-    override fun onStop() {
-
-        super.onStop()
-
-
-    }
-
     override fun onStart() {
         super.onStart()
         getInfo(baseContext)
-
-
         isUserOnline = false
-
         LocalBroadcastManager.getInstance(baseContext).registerReceiver(
             (mMessageReceiver),
             IntentFilter("MyData")
         )
-
     }
 
     fun toggleBottomAppBar(show: Boolean) {
@@ -120,33 +111,26 @@ class HomePageActivity : BaseActivity() {
         }
     }
 
-
     fun getInfo(context: Context) {
         HomeClient().getHomeApiService(context).getProfile()
             .enqueue(object : retrofit2.Callback<MeResponse> {
-
                 override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
                     println(response.body())
                     if (response.isSuccessful) {
-                        InboxManager(baseContext).deleteAll()
-
+                        InboxManager(context).deleteAll()
                         user = response.body()?.user!!
 
-                        InboxManager(baseContext).apply {
-
+                        InboxManager(context).apply {
                             user.friends?.let { saveFriendList(it) }
                             user.friendRequestInbox?.let { saveInbox(it) }
                             friendListRecyclerAdapter.updateFriendList(fetchFriends())
                         }
-
                         if (friendListRecyclerAdapter.itemCount == 0)
                             welcomeMessageTextView.visibility = View.VISIBLE
                         else
                             welcomeMessageTextView.visibility = View.GONE
                     }
-
                 }
-
                 override fun onFailure(call: Call<MeResponse>, t: Throwable) {
                     Constants.showError(t)
                 }

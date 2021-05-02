@@ -10,10 +10,9 @@ import com.example.chuckapp.BaseFragment
 import com.example.chuckapp.R
 import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
-import com.example.chuckapp.modules.home.view.appBarNavigation.FriendInboxActivity
-import kotlinx.android.synthetic.main.fragment_bottomfragment1.*
+import kotlinx.android.synthetic.main.fragment_friends.*
 
-class Bottomfragment1 : BaseFragment() {
+class FriendsFragment : BaseFragment() {
 
 
     override fun onCreateView(
@@ -22,12 +21,11 @@ class Bottomfragment1 : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_bottomfragment1, container, false)
+        return inflater.inflate(R.layout.fragment_friends, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         friendListRecyclerView.layoutManager = LinearLayoutManager(context)
         friendListRecyclerView.adapter = (activity as HomePageActivity).friendListRecyclerAdapter
 
@@ -39,13 +37,6 @@ class Bottomfragment1 : BaseFragment() {
         topAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.addFriend -> navigateToAddFriend()
-                R.id.friendRequestBox -> {
-                    startActivity(Intent(context, FriendInboxActivity::class.java))
-                    activity?.overridePendingTransition(
-                        R.anim.slide_in_right,
-                        R.anim.slide_out_left
-                    )
-                }
             }
             true
         }

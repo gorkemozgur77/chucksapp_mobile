@@ -1,5 +1,6 @@
 package com.example.chuckapp.model.friend
 
+import com.example.chuckapp.model.Time
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -12,8 +13,11 @@ data class SentRequest(
     val sender: Sender,
 
     @SerializedName("receiver")
-    val receiever: Receiver,
+    val receiver: Receiver,
 
     @SerializedName("status")
     val status: String,
+
+    @SerializedName("created")
+    val time: Time
 ): Serializable

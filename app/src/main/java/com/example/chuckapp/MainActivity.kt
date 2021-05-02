@@ -36,11 +36,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.start()
-
     }
 
     private fun observeLogin() {
-
         if (sessionmanager.fetchPermToken() != null) {
             AuthClient().getAuthApiService().signInViaToken(
                 LoginRequestViaToken(
@@ -78,8 +76,6 @@ class MainActivity : AppCompatActivity() {
 
                     })
         }
-
-
     }
 
     private val signInViaTokenHandler = object : retrofit2.Callback<LoginResponseViaToken> {

@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.appcompat.app.AppCompatActivity
+import android.view.MotionEvent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R

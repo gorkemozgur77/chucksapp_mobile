@@ -5,6 +5,6 @@
     <item
         android:id="@+id/logOut"
         android:title="Log Out"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView"
         android:icon="@drawable/ic_baseline_close_24"/>
 </menu>
