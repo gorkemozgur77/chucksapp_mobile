@@ -6,23 +6,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.content.res.ResourcesCompat
+import com.example.chuckapp.BaseFragment
 import com.example.chuckapp.R
+import com.example.chuckapp.model.FirebaseToken
 import com.example.chuckapp.model.User
 import com.example.chuckapp.model.requestModels.signUp.EmailExitanceResponce
 import com.example.chuckapp.model.requestModels.signUp.SignResponse
 import com.example.chuckapp.modules.auth.service.AuthClient
 import com.example.chuckapp.modules.auth.util.AuthUtil
 import com.example.chuckapp.modules.auth.validator.RegisterAuthValidator
+import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.service.SessionManager
 import com.example.chuckapp.util.Constants
+import com.example.chuckapp.util.Constants.showError
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_signup.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 
 
-class SignupFragment : Fragment() {
+class SignupFragment : BaseFragment() {
     private lateinit var authClient: AuthClient
     private val authUtil = AuthUtil()
     private val layoutErrorValidator = RegisterAuthValidator()
@@ -37,7 +43,6 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressBar.visibility = View.GONE
         emailLayId.isEndIconVisible = false
 
         signButton.setOnClickListener { signUp(it.context) }
@@ -91,7 +96,11 @@ class SignupFragment : Fragment() {
                         println(response.body())
                         if (response.body()?.existance == "false") {
                             emailLayId.endIconDrawable =
-                                resources.getDrawable(R.drawable.ic_baseline_check_circle_24)
+                                ResourcesCompat.getDrawable(
+                                    resources,
+                                    R.drawable.ic_baseline_check_circle_24,
+                                    null
+                                )
                             emailLayId.helperText = "Valid Email"
                             emailLayId.isEndIconVisible = true
                         } else layoutErrorValidator.errorAction(emailLayId, "Email already exists")
@@ -127,8 +136,8 @@ class SignupFragment : Fragment() {
     }
 
     private fun sendSignUpRequest(context: Context) {
-        progressBar.visibility = View.VISIBLE
-        var sessionmanager = SessionManager(context)
+        showProgressBar()
+        val sessionManager = SessionManager(context)
         authClient = AuthClient()
         authClient.getAuthApiService().signUp(getUserInfo(context))
             .enqueue(object : retrofit2.Callback<SignResponse> {
@@ -136,11 +145,11 @@ class SignupFragment : Fragment() {
                     call: Call<SignResponse>,
                     response: Response<SignResponse>
                 ) {
-                    progressBar.visibility = View.GONE
+                    hideProgressBar()
                     if (response.isSuccessful) {
-
-                        response.body()?.tokenlar?.Token?.let { sessionmanager.saveAuthToken(it) }
-                        response.body()?.tokenlar?.PermToken?.let { sessionmanager.savePermToken(it) }
+                        sendFirebaseToken(context)
+                        response.body()?.tokenlar?.Token?.let { sessionManager.saveAuthToken(it) }
+                        response.body()?.tokenlar?.PermToken?.let { sessionManager.savePermToken(it) }
                         println(response.body())
 
                         val intent = Intent(context, HomePageActivity::class.java)
@@ -150,19 +159,40 @@ class SignupFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<SignResponse>, t: Throwable) {
-                    signButton.text = "faile dustu"
-                    progressBar.visibility = View.GONE
+                    showError(t)
+                    hideProgressBar()
                 }
             })
     }
 
     private fun signUp(context: Context) {
-        println("s")
         validateLayouts()
         if (nameLayId.isErrorEnabled || surnameLayId.isErrorEnabled || emailLayId.isErrorEnabled || passwordLayId.isErrorEnabled)
             return
         sendSignUpRequest(context)
     }
 
+    fun sendFirebaseToken(context: Context) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isSuccessful && it.result != null)
+                HomeClient().getHomeApiService(context)
+                    .sendFirebaseToken(FirebaseToken(it.result!!))
+                    .enqueue(object : retrofit2.Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            println(response.code())
+                            if (response.isSuccessful)
+                                println("Token Yollandı")
+                            else
+                                println("token yollanamadı")
+                        }
 
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            showError(t)
+                        }
+                    })
+        }
+    }
 }

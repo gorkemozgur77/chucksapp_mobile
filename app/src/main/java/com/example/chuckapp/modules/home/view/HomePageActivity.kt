@@ -20,9 +20,17 @@ import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
 import com.example.chuckapp.modules.home.view.bottomNavigation.FriendsFragment
 import com.example.chuckapp.modules.twilio.VideoActivity
+import com.example.chuckapp.service.websocket.MainInteractor
+import com.example.chuckapp.service.websocket.MainRepository
+import com.example.chuckapp.service.websocket.WebServicesProvider
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.InboxManager
 import kotlinx.android.synthetic.main.activity_home_page.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 
@@ -30,10 +38,13 @@ import retrofit2.Response
 class HomePageActivity : BaseActivity() {
     lateinit var friendListRecyclerAdapter: FriendListRecyclerAdapter
     lateinit var user: User
+    lateinit var interactor: MainInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
+
+        interactor = MainInteractor(MainRepository(WebServicesProvider()))
 
         friendListRecyclerAdapter = FriendListRecyclerAdapter(this)
         home_page_bottomNavigationViewId.background = null
@@ -70,24 +81,54 @@ class HomePageActivity : BaseActivity() {
 
     }
 
-    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            println("From broadcast    ------     " + intent.extras?.get("userId"))
-            friendListRecyclerAdapter.changeStatus(
-                intent.extras?.get("userId").toString(),
-                intent.extras?.get("action").toString()
-            )
-        }
-    }
+//    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+//        override fun onReceive(context: Context, intent: Intent) {
+//            println("From broadcast    ------     " + intent.extras?.get("userId"))
+//            friendListRecyclerAdapter.changeStatus(
+//                intent.extras?.get("userId").toString(),
+//                intent.extras?.get("action").toString()
+//            )
+//        }
+//    }
 
+    @ExperimentalCoroutinesApi
     override fun onStart() {
         super.onStart()
         getInfo(baseContext)
         isUserOnline = false
-        LocalBroadcastManager.getInstance(baseContext).registerReceiver(
-            (mMessageReceiver),
-            IntentFilter("MyData")
-        )
+//        LocalBroadcastManager.getInstance(baseContext).registerReceiver(
+//            (mMessageReceiver),
+//            IntentFilter("MyData")
+//        )
+
+        subscribeToSocketEvents()
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onStop() {
+        interactor.stopSocket()
+        super.onStop()
+    }
+
+    @ExperimentalCoroutinesApi
+    fun subscribeToSocketEvents() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                interactor.startSocket().consumeEach {
+                    if (it.exception == null) {
+                        println("Collecting : ${it.text}")
+                    } else {
+                        onSocketError(it.exception)
+                    }
+                }
+            } catch (ex: java.lang.Exception) {
+                onSocketError(ex)
+            }
+        }
+    }
+
+    private fun onSocketError(ex: Throwable) {
+        println("Error occurred : ${ex.message}")
     }
 
     fun toggleBottomAppBar(show: Boolean) {

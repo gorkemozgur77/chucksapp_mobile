@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="@color/etoBlue"
+        app:borderWidth="0dp"
         android:src="@drawable/ic_navigation_camera_white"
         app:layout_anchor="@id/home_page_bottomAppbarId"
         app:tint="@color/white" />

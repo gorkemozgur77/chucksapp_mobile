@@ -15,7 +15,6 @@ import com.example.chuckapp.util.Constants.showError
 import kotlinx.android.synthetic.main.friend_upcoming_row.view.*
 import kotlinx.coroutines.*
 import okhttp3.ResponseBody
-import okhttp3.internal.notify
 import retrofit2.Call
 import retrofit2.Response
 
@@ -36,14 +35,22 @@ class UpcomingRequestsRecyclerAdapter(val context: Context) :
             upcomingUserNameTextView.text = list[position].receiver.fullname
             upcomingDateTextView.text = getDate(list[position].time.timestamp)
             upcomingStatusIcon.setOnClickListener {
-                cancelFriendRequest(list[position], statusTextView, upcomingStatusIcon, upcomingProgressbar, position)
+                cancelFriendRequest(
+                    list[position],
+                    statusTextView,
+                    upcomingStatusIcon,
+                    upcomingProgressbar,
+                    position
+                )
                 statusTextView.text = "CANCELED"
                 upcomingStatusIcon.visibility = View.GONE
                 upcomingProgressbar.visibility = View.VISIBLE
             }
 
-            if (position == 0)
+            if (position == 0) {
                 upcomingLineer.background = null
+            }
+
         }
     }
 
@@ -56,13 +63,24 @@ class UpcomingRequestsRecyclerAdapter(val context: Context) :
         notifyDataSetChanged()
     }
 
-    private fun changeLayout( view1: TextView, view2: View, view3: ProgressBar){
+    fun addRequest(request: SentRequest) {
+        list.add(request)
+        notifyItemRangeInserted(list.size, 1)
+    }
+
+    private fun changeLayout(view1: TextView, view2: View, view3: ProgressBar) {
         view1.text = "PENDING"
         view2.visibility = View.VISIBLE
         view3.visibility = View.GONE
     }
 
-    private fun cancelFriendRequest(request: SentRequest, view1: TextView, view2: View, view3: ProgressBar, position: Int) {
+    private fun cancelFriendRequest(
+        request: SentRequest,
+        view1: TextView,
+        view2: View,
+        view3: ProgressBar,
+        position: Int
+    ) {
         val sendTime = System.currentTimeMillis()
 
         HomeClient().getHomeApiService(context).cancelFriendRequest(request.id)
@@ -73,28 +91,39 @@ class UpcomingRequestsRecyclerAdapter(val context: Context) :
                 ) {
                     println(response.body())
                     if (response.isSuccessful) {
-                        if ((System.currentTimeMillis() - sendTime) < 1500){
+                        if ((System.currentTimeMillis() - sendTime) < 1500) {
                             GlobalScope.launch {
                                 delay(1500)
-                                withContext(Dispatchers.Main){
+                                withContext(Dispatchers.Main) {
                                     list.remove(request)
-                                    notifyItemRemoved(position)
-                                    notifyItemRangeChanged(position, list.size)
+                                    if (itemCount == 0)
+                                        notifyDataSetChanged()
+                                    else {
+                                        notifyItemRemoved(position)
+                                        notifyItemRangeChanged(position, list.size)
+                                    }
                                     delay(500)
                                     changeLayout(view1, view2, view3)
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             list.remove(request)
-                            notifyItemRemoved(position)
-                            notifyItemRangeChanged(position, list.size)
+                            if (itemCount == 0)
+                                notifyDataSetChanged()
+                            else {
+                                notifyItemRemoved(position)
+                                notifyItemRangeChanged(position, list.size)
+                            }
+                            GlobalScope.launch(Dispatchers.Main) {
+                                delay(500)
+                                changeLayout(view1, view2, view3)
+                            }
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
+                    showError(t)
                 }
 
             })

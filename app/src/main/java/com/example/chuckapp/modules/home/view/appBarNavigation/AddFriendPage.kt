@@ -291,8 +291,13 @@ class AddFriendPage : BaseActivity() {
                         InboxManager(context).deleteAll()
                         val user = response.body()?.user!!
                         InboxManager(context).apply {
-                            user.friendRequestInbox?.let { saveInbox(it) }
-                            upcomingRequestsRecyclerAdapter.updateInbox(fetchSentRequests())
+                            user.friendRequestInbox?.let {
+                                for (request in it.sent){
+                                    if (!upcomingRequestsRecyclerAdapter.list.contains(request)){
+                                        upcomingRequestsRecyclerAdapter.addRequest(request)
+                                    }
+                                }
+                            }
                         }
                     }
                 }

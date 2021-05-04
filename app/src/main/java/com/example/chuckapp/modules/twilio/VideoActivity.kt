@@ -924,6 +924,8 @@ class VideoActivity : AppCompatActivity() {
             }
         }
         moveLocalVideoToPrimaryView()
+        finish()
+
     }
 
     private fun removeParticipantVideo(videoTrack: VideoTrack) {
@@ -957,8 +959,7 @@ class VideoActivity : AppCompatActivity() {
             /*
              * Disconnect from room
              */
-            room?.disconnect()
-            initializeUI()
+            finish()
         }
     }
 

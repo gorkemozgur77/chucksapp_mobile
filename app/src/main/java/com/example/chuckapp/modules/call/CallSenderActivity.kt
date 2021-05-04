@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.MotionEvent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chuckapp.BaseActivity
 import com.example.chuckapp.R
@@ -60,8 +59,13 @@ class CallSenderActivity : BaseActivity() {
 
         }
         timer.start()
+    }
 
-
+    override fun onStop() {
+        LocalBroadcastManager.getInstance(baseContext).unregisterReceiver(
+            (mMessageReceiver)
+        )
+        super.onStop()
     }
 
     private fun interrupt() {
@@ -72,9 +76,7 @@ class CallSenderActivity : BaseActivity() {
                     response: Response<ResponseBody>
                 ) {
 
-                    println("-------- Interraptlandı ")
                 }
-
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Constants.showError(t)
                 }
@@ -94,6 +96,7 @@ class CallSenderActivity : BaseActivity() {
                 val videoIntent = Intent(baseContext, VideoActivity::class.java)
                 videoIntent.putExtra("room_name", roomName)
                 videoIntent.putExtra("access_token", accessToken)
+                println("video intentden önceki son")
                 startActivity(videoIntent)
                 finish()
 
