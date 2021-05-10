@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.util.TypedValue
-import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,17 +20,18 @@ import com.example.chuckapp.model.requestModels.Home.SendIdRequestBody
 import com.example.chuckapp.modules.home.recyclerAdapters.IncomingRequestsRecyclerAdapter
 import com.example.chuckapp.modules.home.recyclerAdapters.UpcomingRequestsRecyclerAdapter
 import com.example.chuckapp.modules.home.service.HomeClient
+import com.example.chuckapp.service.HandlerMe
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.InboxManager
 import kotlinx.android.synthetic.main.activity_add_friend_page.*
 import kotlinx.coroutines.*
-import okhttp3.Dispatcher
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
 
-class AddFriendPage : BaseActivity() {
+class AddFriendPage : BaseActivity(), HandlerMe {
     lateinit var incomingRequestsRecyclerAdapter: IncomingRequestsRecyclerAdapter
     lateinit var upcomingRequestsRecyclerAdapter: UpcomingRequestsRecyclerAdapter
 
@@ -53,8 +53,9 @@ class AddFriendPage : BaseActivity() {
         topAppBarFriend.setNavigationOnClickListener {
             onBackPressed()
         }
-        setupSearchBar()
+    }
 
+    override fun getWebSocketData(jsonObject: JSONObject) {
 
     }
 
@@ -219,7 +220,7 @@ class AddFriendPage : BaseActivity() {
                 }
             })
 
-            setOnBindSuggestionCallback { suggestionView, leftIcon, textView, item, itemPosition ->
+            setOnBindSuggestionCallback { _, leftIcon, textView, item, _ ->
 
                 val textColor = "#787878"
                 val textLight = "#000000"
@@ -230,21 +231,21 @@ class AddFriendPage : BaseActivity() {
                             R.drawable.ic_history_black_24dp, null
                         )
                     )
-                    leftIcon?.alpha = .36f;
+                    leftIcon?.alpha = .36f
                 } else {
-                    leftIcon?.alpha = 0.0f;
-                    leftIcon?.setImageDrawable(null);
+                    leftIcon?.alpha = 0.0f
+                    leftIcon?.setImageDrawable(null)
                 }
                 textView.setCompoundDrawablesWithIntrinsicBounds(
                     0, //left
                     0, //top
                     R.drawable.ic_arrow_back_black_24dp, //right
                     0
-                );//bottom
+                )//bottom
 
                 textView.setTextColor(Color.parseColor(textColor))
                 val text: String = item.body!!.replaceFirst(
-                    floating_search_view.getQuery(),
+                    floating_search_view.query,
                     "<font color=\"$textLight\">" + floating_search_view.query
                         .toString() + "</font>"
                 )
@@ -306,6 +307,10 @@ class AddFriendPage : BaseActivity() {
                     Constants.showError(t)
                 }
             })
+    }
+
+    override fun myMessage(message: Any) {
+
     }
 
 

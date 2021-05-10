@@ -15,6 +15,7 @@ import com.example.chuckapp.modules.twilio.VideoActivity
 import com.example.chuckapp.util.Constants
 import kotlinx.android.synthetic.main.activity_call_sender.*
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
@@ -66,6 +67,10 @@ class CallSenderActivity : BaseActivity() {
             (mMessageReceiver)
         )
         super.onStop()
+    }
+
+    override fun getWebSocketData(jsonObject: JSONObject) {
+
     }
 
     private fun interrupt() {

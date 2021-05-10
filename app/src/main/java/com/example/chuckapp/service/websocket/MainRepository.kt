@@ -13,4 +13,5 @@ class MainRepository constructor(private val webServicesProvider: WebServicesPro
     fun closeSocket() {
         webServicesProvider.stopSocket()
     }
+
 }

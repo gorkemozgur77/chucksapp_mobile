@@ -1,35 +1,26 @@
 package com.example.chuckapp
 
+import android.app.ActivityManager
 import android.app.Dialog
+import android.content.*
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
-import com.example.chuckapp.model.requestModels.Home.ActiveInactiveResponse
-import com.example.chuckapp.modules.home.service.HomeClient
-import com.example.chuckapp.util.Constants
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.chuckapp.service.StatusService
 import com.example.chuckapp.util.ProgressDialog
-import retrofit2.Call
-import retrofit2.Response
+import org.json.JSONObject
 
-abstract class BaseActivity : AppCompatActivity(), LifecycleObserver {
 
-    var isUserOnline = false
+abstract class BaseActivity : AppCompatActivity() {
+
     var progressBar: Dialog? = null
+    private var isInBackground = false
 
-    var wasInBackground = false
+    val homepageStatue = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         progressBar = ProgressDialog(this)
-
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this);
-
-
     }
 
     fun showProgressBar() {
@@ -40,67 +31,54 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleObserver {
         progressBar?.hide()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onMoveToForeground() {
-        // app moved to foreground
-        wasInBackground = true
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onMoveToBackground() {
-        // app moved to background
-        wasInBackground = false
+    override fun onStart() {
+        if (isInBackground) {
+            Intent(this, StatusService::class.java).also {
+                startService(it)
+            }
+            LocalBroadcastManager.getInstance(baseContext).registerReceiver(
+                (messageReceiver),
+                IntentFilter("StatusChangeData")
+            )
+            isInBackground = false
+        }
+        super.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-
-        if (!wasInBackground)
-            setUserInactive()
+        if (isApplicationBroughtToBackground()) {
+            isInBackground = true
+            LocalBroadcastManager.getInstance(baseContext).unregisterReceiver(messageReceiver)
+            Intent(this, StatusService::class.java).also {
+                stopService(it)
+            }
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (!wasInBackground)
-            setUserActive()
+    private fun isApplicationBroughtToBackground(): Boolean {
+        val am =
+            applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val tasks = am.getRunningTasks(1)
+        if (tasks.isNotEmpty()) {
+            val topActivity: ComponentName? = tasks[0].topActivity
+            if (topActivity != null) {
+                if (topActivity.packageName != applicationContext.packageName) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
+    abstract fun getWebSocketData(jsonObject: JSONObject)
 
-    private fun setUserActive() {
-        HomeClient().getHomeApiService(this).setOnline().enqueue(object :
-            retrofit2.Callback<ActiveInactiveResponse> {
-            override fun onResponse(
-                call: Call<ActiveInactiveResponse>,
-                response: Response<ActiveInactiveResponse>
-            ) {
-                if (response.isSuccessful)
-                    println(response.body())
-                else
-                    println(response.errorBody()?.string())
+    val messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val event = intent.getStringExtra("event")
+            if (event != null) {
+                getWebSocketData(JSONObject(event))
             }
-
-            override fun onFailure(call: Call<ActiveInactiveResponse>, t: Throwable) {
-                Constants.showError(t)
-            }
-        })
-    }
-
-    private fun setUserInactive() {
-        HomeClient().getHomeApiService(this).setOffline().enqueue(object :
-            retrofit2.Callback<ActiveInactiveResponse> {
-            override fun onResponse(
-                call: Call<ActiveInactiveResponse>,
-                response: Response<ActiveInactiveResponse>
-            ) {
-                if (response.isSuccessful)
-                    println(response.body())
-                else
-                    println(response.errorBody()?.string())
-            }
-
-            override fun onFailure(call: Call<ActiveInactiveResponse>, t: Throwable) {
-                Constants.showError(t)
-            }
-        })
+        }
     }
 }

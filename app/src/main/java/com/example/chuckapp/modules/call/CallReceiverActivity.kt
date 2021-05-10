@@ -65,11 +65,15 @@ class CallReceiverActivity : BaseActivity() {
         LocalBroadcastManager.getInstance(baseContext).unregisterReceiver(mMessageReceiver)
     }
 
-    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    override fun getWebSocketData(jsonObject: JSONObject) {
+
+    }
+
+
+    val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.getStringExtra("action") == "ON_CALL_INTERRUPTED")
                 finish()
-
         }
     }
 // data.accessToken
@@ -82,6 +86,7 @@ class CallReceiverActivity : BaseActivity() {
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
+                    println(response.errorBody()?.string())
                     if (response.isSuccessful){
                         val jsonObject = JSONObject(response.body()!!.string())
                         val accessToken = jsonObject.getJSONObject("data").getString("accessToken")

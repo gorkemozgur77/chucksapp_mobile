@@ -1,6 +1,5 @@
 package com.example.chuckapp.service.websocket
 
-import com.example.chuckapp.service.websocket.WebServicesProvider.Companion.NORMAL_CLOSURE_STATUS
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -16,10 +15,7 @@ class WebSocketListener : WebSocketListener() {
     val socketEventChannel: Channel<SocketUpdate> = Channel(10)
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
-        webSocket.send("Hi")
-        webSocket.send("Hi again")
-        webSocket.send("Hi again again")
-        webSocket.send("Hi again again again")
+
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
@@ -31,9 +27,8 @@ class WebSocketListener : WebSocketListener() {
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         GlobalScope.launch {
             socketEventChannel.send(SocketUpdate(exception = SocketAbortedException()))
+            socketEventChannel.close()
         }
-        webSocket.close(NORMAL_CLOSURE_STATUS, null)
-        socketEventChannel.close()
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

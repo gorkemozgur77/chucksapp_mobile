@@ -19,6 +19,7 @@ import com.example.chuckapp.modules.auth.validator.SignInValidator
 import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.service.SessionManager
+import com.example.chuckapp.service.StatusService
 import com.example.chuckapp.util.Constants
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_login.*

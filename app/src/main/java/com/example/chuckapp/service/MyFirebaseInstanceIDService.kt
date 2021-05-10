@@ -28,6 +28,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
     lateinit var builder: Notification.Builder
     private val channelId = "12345"
     private val description = "Test Notification"
+
     override fun onCreate() {
         super.onCreate()
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as
@@ -43,12 +44,9 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
 
 
     override fun onMessageReceived(message: RemoteMessage) {
-        val callRecieverIntent = Intent("CallReceiverData")
-        println("------ "+message.data["title"])
-        println("Calleeer     "+message.data["caller_full_name"])
-
-
+        val callReceiverIntent = Intent("CallReceiverData")
         when (message.data["title"]){
+
             "ONLINE", "OFFLINE" -> {
                 val intent = Intent("MyData")
                 intent.putExtra("userId", message.data["user_id"])
@@ -71,8 +69,8 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService() {
             }
 
             "ON_CALL_INTERRUPTED" -> {
-                callRecieverIntent.putExtra("action", "ON_CALL_INTERRUPTED")
-                broadcaster!!.sendBroadcast(callRecieverIntent)
+                callReceiverIntent.putExtra("action", "ON_CALL_INTERRUPTED")
+                broadcaster!!.sendBroadcast(callReceiverIntent)
                 btnNotify(message.data["caller_full_name"].toString())
             }
 

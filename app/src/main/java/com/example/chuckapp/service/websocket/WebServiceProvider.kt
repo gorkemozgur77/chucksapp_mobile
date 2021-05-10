@@ -1,5 +1,7 @@
 package com.example.chuckapp.service.websocket
 
+import android.content.Context
+import com.example.chuckapp.service.SessionManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import okhttp3.OkHttpClient
@@ -7,7 +9,7 @@ import okhttp3.Request
 import okhttp3.WebSocket
 import java.util.concurrent.TimeUnit
 
-class WebServicesProvider {
+class WebServicesProvider(val context: Context) {
 
     private var _webSocket: WebSocket? = null
 
@@ -31,7 +33,9 @@ class WebServicesProvider {
     fun startSocket(webSocketListener: WebSocketListener) {
         _webSocketListener = webSocketListener
         _webSocket = socketOkHttpClient.newWebSocket(
-            Request.Builder().url("ws://echo.websocket.org").build(),
+            Request.Builder()
+                .url("ws://35.198.188.79:8080/health-check/${SessionManager(context).fetchAuthToken()}")
+                .build(),
             webSocketListener
         )
         socketOkHttpClient.dispatcher.executorService.shutdown()
@@ -42,8 +46,7 @@ class WebServicesProvider {
         try {
             _webSocket?.close(NORMAL_CLOSURE_STATUS, null)
             _webSocket = null
-            _webSocketListener?.socketEventChannel?.close()
-            _webSocketListener = null
+
         } catch (ex: Exception) {
         }
     }

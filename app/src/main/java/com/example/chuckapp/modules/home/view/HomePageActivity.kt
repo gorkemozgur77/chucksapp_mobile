@@ -1,6 +1,5 @@
 package com.example.chuckapp.modules.home.view
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -20,17 +19,16 @@ import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
 import com.example.chuckapp.modules.home.view.bottomNavigation.FriendsFragment
 import com.example.chuckapp.modules.twilio.VideoActivity
-import com.example.chuckapp.service.websocket.MainInteractor
-import com.example.chuckapp.service.websocket.MainRepository
-import com.example.chuckapp.service.websocket.WebServicesProvider
+import com.example.chuckapp.service.HandlerMe
+import com.example.chuckapp.service.StatusService
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.InboxManager
 import kotlinx.android.synthetic.main.activity_home_page.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
@@ -38,18 +36,27 @@ import retrofit2.Response
 class HomePageActivity : BaseActivity() {
     lateinit var friendListRecyclerAdapter: FriendListRecyclerAdapter
     lateinit var user: User
-    lateinit var interactor: MainInteractor
 
+
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
+        Intent(this, StatusService::class.java).also {
+            startService(it)
+        }
+
+        LocalBroadcastManager.getInstance(baseContext).registerReceiver(
+            (messageReceiver),
+            IntentFilter("StatusChangeData")
+        )
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
-
-        interactor = MainInteractor(MainRepository(WebServicesProvider()))
-
         friendListRecyclerAdapter = FriendListRecyclerAdapter(this)
         home_page_bottomNavigationViewId.background = null
         home_page_bottomNavigationViewId.menu.getItem(1).isEnabled = false
         makeCurrentFragment(FriendsFragment())
+
+
 
         home_page_bottomNavigationViewId.setOnNavigationItemSelectedListener {
 
@@ -72,64 +79,35 @@ class HomePageActivity : BaseActivity() {
                 R.id.account -> print("")
             }
         }
-
         fabId.setOnClickListener {
             startActivity(Intent(baseContext, VideoActivity::class.java))
         }
-
-
-
     }
-
-//    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context, intent: Intent) {
-//            println("From broadcast    ------     " + intent.extras?.get("userId"))
-//            friendListRecyclerAdapter.changeStatus(
-//                intent.extras?.get("userId").toString(),
-//                intent.extras?.get("action").toString()
-//            )
-//        }
-//    }
 
     @ExperimentalCoroutinesApi
     override fun onStart() {
         super.onStart()
         getInfo(baseContext)
-        isUserOnline = false
-//        LocalBroadcastManager.getInstance(baseContext).registerReceiver(
-//            (mMessageReceiver),
-//            IntentFilter("MyData")
-//        )
-
-        subscribeToSocketEvents()
+        StatusService.setPage("homepage")
     }
 
-    @ExperimentalCoroutinesApi
-    override fun onStop() {
-        interactor.stopSocket()
-        super.onStop()
-    }
-
-    @ExperimentalCoroutinesApi
-    fun subscribeToSocketEvents() {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                interactor.startSocket().consumeEach {
-                    if (it.exception == null) {
-                        println("Collecting : ${it.text}")
-                    } else {
-                        onSocketError(it.exception)
-                    }
-                }
-            } catch (ex: java.lang.Exception) {
-                onSocketError(ex)
+    override fun getWebSocketData(jsonObject: JSONObject) {
+        when(jsonObject["event"]){
+            "CONNECT" -> {
+                friendListRecyclerAdapter.changeStatus(jsonObject["userId"].toString(), "ONLINE")
+            }
+            "CLOSE" -> {
+                friendListRecyclerAdapter.changeStatus(jsonObject["userId"].toString(), "OFFLINE")
             }
         }
     }
 
-    private fun onSocketError(ex: Throwable) {
-        println("Error occurred : ${ex.message}")
+
+    @ExperimentalCoroutinesApi
+    override fun onDestroy() {
+        super.onDestroy()
     }
+
 
     fun toggleBottomAppBar(show: Boolean) {
         val transition: Transition = Fade()
@@ -156,15 +134,18 @@ class HomePageActivity : BaseActivity() {
         HomeClient().getHomeApiService(context).getProfile()
             .enqueue(object : retrofit2.Callback<MeResponse> {
                 override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
-                    println(response.body())
+
                     if (response.isSuccessful) {
                         InboxManager(context).deleteAll()
                         user = response.body()?.user!!
 
                         InboxManager(context).apply {
                             user.friends?.let { saveFriendList(it) }
-                            user.friendRequestInbox?.let { saveInbox(it) }
+                            user.friendRequestInbox?.let {
+                                saveInbox(it)
+                            }
                             friendListRecyclerAdapter.updateFriendList(fetchFriends())
+
                         }
                         if (friendListRecyclerAdapter.itemCount == 0)
                             welcomeMessageTextView.visibility = View.VISIBLE
