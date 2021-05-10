@@ -56,8 +56,6 @@ class HomePageActivity : BaseActivity() {
         home_page_bottomNavigationViewId.menu.getItem(1).isEnabled = false
         makeCurrentFragment(FriendsFragment())
 
-
-
         home_page_bottomNavigationViewId.setOnNavigationItemSelectedListener {
 
             when (it.itemId) {
@@ -131,6 +129,7 @@ class HomePageActivity : BaseActivity() {
     }
 
     fun getInfo(context: Context) {
+        showProgressBar()
         HomeClient().getHomeApiService(context).getProfile()
             .enqueue(object : retrofit2.Callback<MeResponse> {
                 override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
@@ -152,6 +151,7 @@ class HomePageActivity : BaseActivity() {
                         else
                             welcomeMessageTextView.visibility = View.GONE
                     }
+                    hideProgressBar()
                 }
                 override fun onFailure(call: Call<MeResponse>, t: Throwable) {
                     Constants.showError(t)
