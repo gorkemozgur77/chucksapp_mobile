@@ -34,7 +34,7 @@ class WebServicesProvider(val context: Context) {
         _webSocketListener = webSocketListener
         _webSocket = socketOkHttpClient.newWebSocket(
             Request.Builder()
-                .url("ws://35.198.188.79:8080/health-check/${SessionManager(context).fetchAuthToken()}")
+                .url("ws://10.0.2.2:8080/health-check/${SessionManager(context).fetchAuthToken()}")
                 .build(),
             webSocketListener
         )

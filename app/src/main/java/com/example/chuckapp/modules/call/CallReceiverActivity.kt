@@ -97,7 +97,6 @@ class CallReceiverActivity : BaseActivity() {
                         startActivity(videoIntent)
                         finish()
                     }
-
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

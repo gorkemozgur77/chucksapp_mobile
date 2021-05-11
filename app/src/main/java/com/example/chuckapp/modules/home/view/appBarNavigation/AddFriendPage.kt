@@ -46,7 +46,7 @@ class AddFriendPage : BaseActivity(), HandlerMe {
 
         setupInboxRecyclerView()
         setupUpcomingRecyclerView()
-
+        setupSearchBar()
         incomingRequestsRecyclerAdapter.updateInbox(inboxManager.fetchReceivedRequests())
         upcomingRequestsRecyclerAdapter.updateInbox(inboxManager.fetchSentRequests())
 
@@ -312,6 +312,4 @@ class AddFriendPage : BaseActivity(), HandlerMe {
     override fun myMessage(message: Any) {
 
     }
-
-
 }

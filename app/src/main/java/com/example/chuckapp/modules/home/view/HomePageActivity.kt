@@ -103,6 +103,9 @@ class HomePageActivity : BaseActivity() {
 
     @ExperimentalCoroutinesApi
     override fun onDestroy() {
+        Intent(this, StatusService::class.java).also {
+            stopService(it)
+        }
         super.onDestroy()
     }
 
