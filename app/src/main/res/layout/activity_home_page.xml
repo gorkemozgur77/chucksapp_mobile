@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
+        app:hideOnScroll="true"
         app:fabCradleMargin="15dp"
         app:fabCradleRoundedCornerRadius="30dp">
 
