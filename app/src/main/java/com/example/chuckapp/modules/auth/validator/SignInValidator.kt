@@ -1,11 +1,13 @@
 package com.example.chuckapp.modules.auth.validator
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.view.View
 import com.example.chuckapp.R
 
 class SignInValidator : AuthValidator(){
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun wrongInfoAlertDialog(view: View){
 
         val builder = AlertDialog.Builder(view.context)

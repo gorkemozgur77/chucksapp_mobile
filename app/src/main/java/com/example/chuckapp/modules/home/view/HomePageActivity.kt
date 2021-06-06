@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.transition.Fade
@@ -19,15 +20,12 @@ import com.example.chuckapp.modules.home.service.HomeClient
 import com.example.chuckapp.modules.home.view.bottomNavigation.AccountFragment
 import com.example.chuckapp.modules.home.view.bottomNavigation.FriendsFragment
 import com.example.chuckapp.modules.twilio.VideoActivity
-import com.example.chuckapp.service.HandlerMe
 import com.example.chuckapp.service.StatusService
 import com.example.chuckapp.util.Constants
 import com.example.chuckapp.util.InboxManager
 import kotlinx.android.synthetic.main.activity_home_page.*
-import kotlinx.coroutines.Dispatchers
+import kotlinx.android.synthetic.main.activity_video.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
@@ -78,7 +76,7 @@ class HomePageActivity : BaseActivity() {
             }
         }
         fabId.setOnClickListener {
-            startActivity(Intent(baseContext, VideoActivity::class.java))
+
         }
     }
 
@@ -100,7 +98,6 @@ class HomePageActivity : BaseActivity() {
         }
     }
 
-
     @ExperimentalCoroutinesApi
     override fun onDestroy() {
         Intent(this, StatusService::class.java).also {
@@ -108,7 +105,6 @@ class HomePageActivity : BaseActivity() {
         }
         super.onDestroy()
     }
-
 
     fun toggleBottomAppBar(show: Boolean) {
         val transition: Transition = Fade()
@@ -136,18 +132,28 @@ class HomePageActivity : BaseActivity() {
         HomeClient().getHomeApiService(context).getProfile()
             .enqueue(object : retrofit2.Callback<MeResponse> {
                 override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
-
+                    val item = topAppBar.menu.findItem(R.id.addFriend).actionView
+                    val textView = item.findViewById<TextView>(R.id.cart_badge)
                     if (response.isSuccessful) {
                         InboxManager(context).deleteAll()
                         user = response.body()?.user!!
-
                         InboxManager(context).apply {
                             user.friends?.let { saveFriendList(it) }
                             user.friendRequestInbox?.let {
                                 saveInbox(it)
+                                val badgeSize = it.received.size
+                                textView.apply {
+                                    if (badgeSize == 0) {
+                                        if (visibility != View.GONE)
+                                            visibility = View.GONE
+                                    } else {
+                                        text = badgeSize.toString()
+                                        if (visibility != View.VISIBLE)
+                                            visibility = View.VISIBLE
+                                    }
+                                }
                             }
                             friendListRecyclerAdapter.updateFriendList(fetchFriends())
-
                         }
                         if (friendListRecyclerAdapter.itemCount == 0)
                             welcomeMessageTextView.visibility = View.VISIBLE

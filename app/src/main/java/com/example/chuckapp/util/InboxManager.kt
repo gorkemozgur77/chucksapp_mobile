@@ -37,6 +37,13 @@ class InboxManager(val context: Context) {
         editor.apply();
     }
 
+    fun getInboxCount(): Int {
+        val inboxManager = fetchReceivedRequests()
+        if (inboxManager != null)
+            return inboxManager.size
+        return 0
+    }
+
     fun fetchFriends(): MutableList<Friend>{
         val gson = Gson()
         val json = prefs.getString(FRIEND_LIST, null)
@@ -46,15 +53,17 @@ class InboxManager(val context: Context) {
         } else mutableListOf()
     }
 
-    private fun fetchInbox(): FriendRequestInbox {
+    private fun fetchInbox(): FriendRequestInbox? {
         val gson = Gson()
         val json = prefs.getString(FRIEND_INBOX, null)
         return gson.fromJson(json, FriendRequestInbox::class.java)
     }
 
-    fun fetchSentRequests(): MutableList<SentRequest> { return fetchInbox().sent }
+    fun fetchSentRequests(): MutableList<SentRequest>? { return fetchInbox()?.sent
+    }
 
-    fun fetchReceivedRequests(): MutableList<ReceivedRequest> { return fetchInbox().received }
+    fun fetchReceivedRequests(): MutableList<ReceivedRequest>? { return fetchInbox()?.received
+    }
 
     fun deleteAll() {
         val editor = prefs.edit()

@@ -5,15 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chuckapp.BaseFragment
 import com.example.chuckapp.R
+import com.example.chuckapp.modules.home.recyclerAdapters.FriendListRecyclerAdapter
 import com.example.chuckapp.modules.home.view.HomePageActivity
 import com.example.chuckapp.modules.home.view.appBarNavigation.AddFriendPage
+import com.example.chuckapp.util.InboxManager
+import kotlinx.android.synthetic.main.activity_video.*
 import kotlinx.android.synthetic.main.fragment_friends.*
+import kotlinx.android.synthetic.main.fragment_friends.topAppBar
 
 class FriendsFragment : BaseFragment() {
 
+    lateinit var item : View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,20 +34,17 @@ class FriendsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         friendListRecyclerView.layoutManager = LinearLayoutManager(context)
         friendListRecyclerView.adapter = (activity as HomePageActivity).friendListRecyclerAdapter
+        item = topAppBar.menu.findItem(R.id.addFriend).actionView
 
+
+        item.setOnClickListener {
+            navigateToAddFriend()
+        }
         swipeRefreshLay.setOnRefreshListener {
             (activity as HomePageActivity).getInfo((activity as HomePageActivity).baseContext)
             swipeRefreshLay.isRefreshing = false
         }
-
-        topAppBar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.addFriend -> navigateToAddFriend()
-            }
-            true
-        }
     }
-
 
 
     private fun navigateToAddFriend() {
@@ -49,7 +52,6 @@ class FriendsFragment : BaseFragment() {
         startActivity(Intent(context, AddFriendPage::class.java))
         activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
-
 
 
 }

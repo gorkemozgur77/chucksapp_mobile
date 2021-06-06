@@ -4,7 +4,8 @@
 
     <item
         android:id="@+id/addFriend"
-        android:icon="@drawable/ic_baseline_person_add_24"
+        app:actionLayout="@layout/badge_layout"
         android:title="Add Friend"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
 </menu>

@@ -47,8 +47,8 @@ class AddFriendPage : BaseActivity(), HandlerMe {
         setupInboxRecyclerView()
         setupUpcomingRecyclerView()
         setupSearchBar()
-        incomingRequestsRecyclerAdapter.updateInbox(inboxManager.fetchReceivedRequests())
-        upcomingRequestsRecyclerAdapter.updateInbox(inboxManager.fetchSentRequests())
+        inboxManager.fetchReceivedRequests()?.let { incomingRequestsRecyclerAdapter.updateInbox(it) }
+        inboxManager.fetchSentRequests()?.let { upcomingRequestsRecyclerAdapter.updateInbox(it) }
 
         topAppBarFriend.setNavigationOnClickListener {
             onBackPressed()
